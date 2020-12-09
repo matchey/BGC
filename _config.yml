@@ -1,1 +1,7 @@
 theme: jekyll-theme-architect
+encding: utf-8
+plugins: 
+  - jekyll-github-metadata
+github : [metadata]
+repository: matchey/BGC
+
