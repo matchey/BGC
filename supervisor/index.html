@@ -1,0 +1,105 @@
+---
+layout: default
+---
+
+<h3>
+Share this link with players
+<!-- The button used to copy the text -->
+<button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+</h3>
+<!-- The text field -->
+<input type="text" readonly id="urlString">
+
+<script>
+var url_param = location.search; // .substring(1) で ?以降を取得
+
+if(!url_param)
+{
+  // 「&」が含まれている場合は「&」で分割
+  // var param = urlParam.split('&');
+ 
+  // パラメータを格納する用の配列を用意
+  // var paramArray = [];
+ 
+  // 用意した配列にパラメータを格納
+  // for (i = 0; i < param.length; i++) {
+  //   var paramItem = param[i].split('=');
+  //   paramArray[paramItem[0]] = paramItem[1];
+  // }
+ 
+  // パラメータidがosakaかどうかを判断する
+  // if (paramArray.id == 'osaka') {
+  //   $('.pram').append('<p>大阪です</p>');
+  // } else {
+  //   $('.pram').append('<p>大阪ではありません</p>');
+  // }
+  window.location.href='/';
+}
+else
+{
+  var param_item = url_param.split('=');
+  if (param_item[0] != '?game_id')
+  {
+    window.location.href='/';
+  }
+}
+
+var url_players = "https://matchey.github.io/BGC/players" + url_param;
+document.getElementById("urlString").value = url_players;
+
+</script>
+
+<script>
+function copyToClipboard() {
+/* Get the text field */
+var copyText = document.getElementById("urlString");
+var copyButton = document.getElementById("copyButton");
+
+/* Select the text field */
+copyText.select();
+copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+/* Copy the text inside the text field */
+document.execCommand("copy");
+
+copyButton.innerHTML = "Copid!";
+
+/* Alert the copied text */
+// alert("Copied the text: " + copyText.value);
+}
+</script>
+
+<br>
+
+<h3>
+Input players names
+<input type="button" value="Get Current Players" onclick=window.location.href="./">
+</h3>
+
+<form method="GET" action="./">
+  <p>Player name：<input type="text" name="NAME">
+  <input type="reset" value="remove"></p>
+</form>
+
+<h2>
+<button id="StartButton" >Next</button>
+<button type="submit" formaction="./grouping" name="button">Next</button>
+</h2>
+
+<input type="button" onclick="location.href='./grouping.html'" value="遷移">
+
+<a href="./">
+  <button type="button">Button</button>
+</a>
+
+<button type="submit" formaction="./grouping.html" name="button">Some text</button>
+
+
+<!-- <form method="post" id="uuid_game"> -->
+<form method="get" id="uuid_game">
+  <input type="text" name="" value="my data"/>
+</form>
+<p>Botton test</p>
+<button type="submit" formaction="./grouping.html" form="uuid_game">TextA</button>
+<button type="submit" formaction="./" form="uuid">TextB</button>
+

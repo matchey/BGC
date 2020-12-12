@@ -2,28 +2,37 @@
 layout: default
 ---
 
-<head>
-  <link rel="shortcut icon" type="image/x-icon" href="BGC/favicon.ico">
-  <!-- <link rel="apple&#45;touch&#45;icon" sizes="180x180" href="apple&#45;touch&#45;icon.png"> -->
-  <!-- <link rel="icon" type="image/png" sizes="32x32" href="favicon&#45;32x32.png"> -->
-  <!-- <link rel="icon" type="image/png" sizes="16x16" href="favicon&#45;16x16.png"> -->
-  <!-- <link rel="manifest" href="site.webmanifest"> -->
-  <!-- <link rel="mask&#45;icon" href="safari&#45;pinned&#45;tab.svg" color="#5bbad5"> -->
-  <!-- <meta name="msapplication&#45;TileColor" content="#da532c"> -->
-  <!-- <meta name="theme&#45;color" content="#ffffff"> -->
-</head>
-
 <body>
 
 <script>
+  function createNewGame()
+  {
     var uuid = 'xxxx-xxxx-xxxx';
-  function jump(){
     window.location.href='./supervisor?game_id='+uuid;
   }
 </script>
-<a href="javascript:void(0);" onclick="jump();">Start new game</a><br>
 
-<a href="./players">Join</a><br>
+<h3>
+Create a new game as a host
+<button onclick="createNewGame();">
+  <font>Start a new game</font>
+</button>
+</h3>
+
+<script>
+  function joinAGame()
+  {
+    var uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+    var copyText = document.getElementById("urlString");
+    window.location.href='./players?game_id='+uuid;
+  }
+</script>
+
+<h4>
+Join a game that already exists<br>
+<input type="text" id="urlString" placeholder='Paste "URL" or "UUID"'>
+<input type="button" value="Join a game" onclick=joinAGame()>
+</h4>
 
 </body>
 
