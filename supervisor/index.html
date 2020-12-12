@@ -2,6 +2,8 @@
 layout: default
 ---
 
+<!-- <script src="/common.js"></script> -->
+
 <h3>
 Share this link with players
 <!-- The button used to copy the text -->
@@ -11,7 +13,9 @@ Share this link with players
 <input type="text" readonly id="urlString">
 
 <script>
-var url_param = location.search; // .substring(1) で ?以降を取得
+var url_param = location.search;
+
+var url_param_str = location.search.substring(1);
 
 if(!url_param)
 {
@@ -50,7 +54,8 @@ document.getElementById("urlString").value = url_players;
 </script>
 
 <script>
-function copyToClipboard() {
+function copyToClipboard()
+{
 /* Get the text field */
 var copyText = document.getElementById("urlString");
 var copyButton = document.getElementById("copyButton");
@@ -74,32 +79,19 @@ copyButton.innerHTML = "Copid!";
 <h3>
 Input players names
 <input type="button" value="Get Current Players" onclick=window.location.href="./">
+<!-- サーバーと同期 (orをとる)-->
 </h3>
 
 <form method="GET" action="./">
   <p>Player name：<input type="text" name="NAME">
-  <input type="reset" value="remove"></p>
+  <input type="reset" value="remove"></p><!--  サーバーから削除 -->
+  <!-- 動的に増やす -->
 </form>
 
 <h2>
-<button id="StartButton" >Next</button>
-<button type="submit" formaction="./grouping" name="button">Next</button>
+Go to the teaming
+<button type="submit" onclick=window.location.href="./grouping" name="button">Next</button>
+<!-- サーバーにplayers送信 -->
+<!-- Are you ready? pop up -->
 </h2>
-
-<input type="button" onclick="location.href='./grouping.html'" value="遷移">
-
-<a href="./">
-  <button type="button">Button</button>
-</a>
-
-<button type="submit" formaction="./grouping.html" name="button">Some text</button>
-
-
-<!-- <form method="post" id="uuid_game"> -->
-<form method="get" id="uuid_game">
-  <input type="text" name="" value="my data"/>
-</form>
-<p>Botton test</p>
-<button type="submit" formaction="./grouping.html" form="uuid_game">TextA</button>
-<button type="submit" formaction="./" form="uuid">TextB</button>
 

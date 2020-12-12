@@ -2,37 +2,45 @@
 layout: default
 ---
 
-<body>
+<script src="/common.js"></script>
 
 <script>
-  function createNewGame()
-  {
-    var uuid = 'xxxx-xxxx-xxxx';
-    window.location.href='./supervisor?game_id='+uuid;
-  }
+function createNewGame()
+{
+  var uuid = '550e8400-e29b-41d4-a716-446655440000';
+  window.location.href = './supervisor?game_id=' + uuid;
+}
 </script>
 
-<h3>
+<h2>
 Create a new game as a host
 <button onclick="createNewGame();">
   <font>Start a new game</font>
 </button>
-</h3>
+</h2>
 
 <script>
-  function joinAGame()
+function joinAGame()
+{
+  var param_uuid = document.getElementById("join_url").value;
+
+  if(!isUUID(param_uuid))
   {
-    var uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
-    var copyText = document.getElementById("urlString");
-    window.location.href='./players?game_id='+uuid;
+    param_uuid = getParam("game_id", param_uuid);
+    if(!isUUID(param_uuid))
+    {
+      return;
+    }
   }
+
+  var players_url = "./players?game_id=" + param_uuid;
+  window.location.href = players_url;
+}
 </script>
 
-<h4>
+<h5>
 Join a game that already exists<br>
-<input type="text" id="urlString" placeholder='Paste "URL" or "UUID"'>
+<input type="text" id="join_url" placeholder='Paste "URL" or "UUID"'>
 <input type="button" value="Join a game" onclick=joinAGame()>
-</h4>
-
-</body>
+</h5>
 
