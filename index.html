@@ -8,7 +8,7 @@ layout: default
 function createNewGame()
 {
   let uuid = '550e8400-e29b-41d4-a716-446655441234';// GASからとる
-  window.location.href = './supervisor?game_id=' + uuid;
+  location.href = './supervisor?game_id=' + uuid;
 }
 </script>
 
@@ -40,7 +40,7 @@ function joinAGame()
   }
 
   let players_url = "./players?game_id=" + param_uuid;
-  window.location.href = players_url;
+  location.href = players_url;
 }
 </script>
 

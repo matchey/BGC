@@ -25,7 +25,7 @@ function getParamsFromString(url_param_str)
 
 function getParam(key, url)
 {
-  if (!url) url = window.location.href;
+  if (!url) url = location.href;
   key = key.replace(/[\[\]]/g, "\\$&");
   let regex = new RegExp("[?&]" + key + "(=([^&#]*)|&|#|$)"),
     results = regex.exec(url);
@@ -48,7 +48,7 @@ function isUUID(uuid)
 
 function jump(url_base)
 {
-  let url = url_base + window.location.search;
-  window.location.replace(url);
+  let url = url_base + location.search;
+  location.replace(url);
 }
 
