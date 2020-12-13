@@ -2,75 +2,34 @@
 layout: default
 ---
 
-<!-- <script src="../common.js"></script> -->
+<script src="../common.js"></script>
+<script>if(!isUUID(getParam("game_id"))){jump("../");}</script>
 
 <h3>
 Share this link with players
 <!-- The button used to copy the text -->
 <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
 </h3>
-<!-- The text field -->
 <input type="text" readonly id="urlString">
 
 <script>
-var url_param = location.search;
-
-var url_param_str = location.search.substring(1);
-
-if(!url_param)
-{
-  // 「&」が含まれている場合は「&」で分割
-  // var param = urlParam.split('&');
- 
-  // パラメータを格納する用の配列を用意
-  // var paramArray = [];
- 
-  // 用意した配列にパラメータを格納
-  // for (i = 0; i < param.length; i++) {
-  //   var paramItem = param[i].split('=');
-  //   paramArray[paramItem[0]] = paramItem[1];
-  // }
- 
-  // パラメータidがosakaかどうかを判断する
-  // if (paramArray.id == 'osaka') {
-  //   $('.pram').append('<p>大阪です</p>');
-  // } else {
-  //   $('.pram').append('<p>大阪ではありません</p>');
-  // }
-  window.location.href='/';
-}
-else
-{
-  var param_item = url_param.split('=');
-  if (param_item[0] != '?game_id')
-  {
-    window.location.href='/';
-  }
-}
-
-var url_players = "https://matchey.github.io/BGC/players" + url_param;
+let param_uuid = getParam("game_id");
+const url_players = "https://matchey.github.io/BGC/players?game_id=" + param_uuid;
 document.getElementById("urlString").value = url_players;
-
 </script>
 
 <script>
 function copyToClipboard()
 {
-/* Get the text field */
-var copyText = document.getElementById("urlString");
-var copyButton = document.getElementById("copyButton");
+let copyText = document.getElementById("urlString");
+let copyButton = document.getElementById("copyButton");
 
-/* Select the text field */
-copyText.select();
+copyText.select();/* Select the text field */
 copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
 /* Copy the text inside the text field */
 document.execCommand("copy");
-
 copyButton.innerHTML = "Copid!";
-
-/* Alert the copied text */
-// alert("Copied the text: " + copyText.value);
 }
 </script>
 
@@ -78,9 +37,16 @@ copyButton.innerHTML = "Copid!";
 
 <h3>
 Input players names
-<input type="button" value="Get Current Players" onclick=window.location.href="./">
-<!-- サーバーと同期 (orをとる)-->
+<input type="button" value="Get Current Players" onclick=syncNames()>
 </h3>
+
+<script>
+function syncNames()// 読み込み時に実行 jump("./") で実行される
+{
+  // サーバーと同期 (orをとる)
+  jump("./");
+}
+</script>
 
 <form method="GET" action="./">
   <p>Player name：<input type="text" name="NAME">
@@ -90,8 +56,16 @@ Input players names
 
 <h2>
 Go to the teaming
-<button type="submit" onclick=window.location.href="./grouping" name="button">Next</button>
+<button type="submit" onclick=goGrouping() name="button">Next</button>
 <!-- サーバーにplayers送信 -->
 <!-- Are you ready? pop up -->
 </h2>
+
+<script>
+function goGrouping()
+{
+  syncNames();
+  jump("./grouping")
+}
+</script>
 

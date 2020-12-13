@@ -2,6 +2,9 @@
 layout: default
 ---
 
+<script src="../common.js"></script>
+<script>if(!isUUID(getParam("game_id"))){jump("../");}</script>
+
 <head>
   <meta charset="UTF-8">
   <title>Input each players score</title>
@@ -16,8 +19,9 @@ layout: default
   <label class="tab_class" for="tab1">Scores</label>
   <div class="content_class">
     <h3>Input scores</h3>
+    <input type="number" min="0" max="300">
     <h2>
-      <button type="submit" onclick=window.location.replace("./grouping") name="button">Next Game</button>
+      <button type="submit" onclick=jump("./result") name="button">Next Game</button>
   </div>
 
   <input type="radio" name="tab_name" id="tab2" >
@@ -33,6 +37,5 @@ layout: default
   </div>
 
 </div>
-
 
 

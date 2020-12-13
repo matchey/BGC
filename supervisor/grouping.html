@@ -2,6 +2,14 @@
 layout: default
 ---
 
+<script src="../common.js"></script>
+<script>if(!isUUID(getParam("game_id"))){jump("../");}</script>
+
+<script src="./js/game_start.js"></script>
+
+<!-- チーム決まるタイミングで -->
+<!-- session でチームを保持 -->
+
 <head>
   <meta charset="UTF-8">
   <title>Grouping players into teams</title>
@@ -9,34 +17,40 @@ layout: default
 </head>
 
 <h2>Divide the players into teams</h2>
+<h3>
+Number of teams: 
+<input id="inputNumTeams" type="number" min="1" max="10">
+<!-- <h3>Number of teams</h3> -->
+</h3>
 
 <div class="area">
 
   <input type="radio" name="tab_name" id="tab1" checked>
   <label class="tab_class" for="tab1">Random</label>
   <div class="content_class">
-    <h3> Input team num </h3>
   </div>
 
   <input type="radio" name="tab_name" id="tab2" >
   <label class="tab_class" for="tab2">Score Based</label>
   <div class="content_class">
-    <h3> Input team num </h3>
   </div>
 
   <input type="radio" name="tab_name" id="tab3" >
   <label class="tab_class" for="tab3">Manual</label>
   <div class="content_class">
-    <p>タブ3のコンテンツを表示します</p>
   </div>
 
 </div>
 
+<script>
+let numTeams = parseInt(sessionStorage.getItem('numTeams'));
+if(numTeams) document.getElementById("inputNumTeams").value = numTeams;
+</script>
+
 
 <h2>
-<button type="submit" onclick=window.location.replace("./") name="button">Back</button>
-<!-- TODO: jump to ./ with uuid -->
-<button type="submit" onclick=window.location.replace("./main.html") name="button">Game Start</button>
+<button type="submit" onclick=jump("./") name="button">Back</button>
+<button type="submit" onclick=gameStart() name="button">Game Start</button>
 </h2>
 
 menu: set params, current result
