@@ -5,54 +5,50 @@ layout: default
 <script src="../common.js"></script>
 <script>if(!isUUID(getParam("game_id"))){jump("../");}</script>
 
+<!-- <script src="http://code.jquery.com/jquery&#45;2.1.4.min.js"></script> -->
+<!-- <script src="js/bootstrap.min.js"></script> -->
+
+<script src="./js/register.js"></script>
+
+<script>
+sessionStorage.setItem('numPlayers', 0);
+</script>
+
 <h3>
 Share this link with players
 <!-- The button used to copy the text -->
-<button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+<button id="buttonUrlCopy" onclick="copyToClipboard('inputUrlString', 'buttonUrlCopy')">Copy to Clipboard</button>
 </h3>
-<input type="text" readonly id="urlString">
+<input type="text" readonly id="inputUrlString">
 
 <script>
-let param_uuid = getParam("game_id");
-const url_players = "https://matchey.github.io/BGC/players?game_id=" + param_uuid;
-document.getElementById("urlString").value = url_players;
+setUrl("inputUrlString");
 </script>
-
-<script>
-function copyToClipboard()
-{
-let copyText = document.getElementById("urlString");
-let copyButton = document.getElementById("copyButton");
-
-copyText.select();/* Select the text field */
-copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-/* Copy the text inside the text field */
-document.execCommand("copy");
-copyButton.innerHTML = "Copid!";
-}
-</script>
-
-<br>
 
 <h3>
 Input players names
-<input type="button" value="Get Current Players" onclick=syncNames()>
+<input type="button" value="Get Current Players" onclick=showPlayerNames()>
 </h3>
 
-<script>
-function syncNames()// 読み込み時に実行 jump("./") で実行される
-{
-  // サーバーと同期 (orをとる)
-  jump("./");
-}
-</script>
+<form id="formPlayers" method="GET" action="./">
 
-<form method="GET" action="./">
-  <p>Player name：<input type="text" name="NAME">
-  <input type="reset" value="remove"></p><!--  サーバーから削除 -->
-  <!-- 動的に増やす -->
+<label id="labelNameLast" class="label" for="inputPlayerNameLast">Player name 1</label>
+<div class="input_players">
+<input id="inputPlayerNameLast" type="text" name="name" autocomplete="name"  autocorrect="off" autocapitalize="off" value="">
+<input id="buttonNameLast" type="button" value="remove", onclick=removeFromDB("Last")>
+</div><br>
+
+<input id="buttonAddPlayer" type="button" onclick=addInputPlayer() value="Add">
 </form>
+<style>
+label{
+  display: block;
+}
+.input_players{
+  display: inline-block;
+  margin: 0em 0em 0.3em 0em;
+}
+</style>
 
 <h2>
 Go to the teaming
@@ -60,12 +56,4 @@ Go to the teaming
 <!-- サーバーにplayers送信 -->
 <!-- Are you ready? pop up -->
 </h2>
-
-<script>
-function goGrouping()
-{
-  syncNames();
-  jump("./grouping")
-}
-</script>
 
