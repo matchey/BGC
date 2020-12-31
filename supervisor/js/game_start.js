@@ -5,25 +5,74 @@ function setNumTeams()
   if(num_teams) document.getElementById("inputNumTeams").value = num_teams;
 }
 
+function createNameStr(name, mode)
+{
+  let rtn = "";
+
+  if(mode != 3)
+  {
+    rtn += name;
+    rtn += '<br>';
+    return rtn;
+  }
+  else
+  {
+    rtn += '<li class="ui-state-default">';
+    rtn += name;
+    rtn += '</li>';
+  }
+
+  return rtn;
+}
+
+function getTeamsFromDB(num_teams, mode)
+{
+  // DBにnum_teams投げて、teamsを受け取る 差が最小となる組合わせ
+  return { 0: ["Alice", "Dave", "Grace"], 1: ["Bob", "Ellen", "Heidi"], 2: ["Carol", "Frank"] };
+}
+
 function showPlayerNames(num_teams, mode)
 {
-  // 差が最小となる組み合わせ
-  let teams = { 1: ["Alice", "Dave", "Grace"], 2: ["Bob", "Ellen", "Heidi"], 3: ["Carol", "Frank"] };
-  // DBにnum_teams投げて、teamsを受け取る
+  if(mode == 3 && !isChanged())
+  {
+    return;
+  }
+  let teams = getTeamsFromDB(num_teams, mode);
   let team_area  = document.getElementById("team_area" + mode);
   team_area.textContent = '';
+
+  let insert_str = "";
   for(let team in teams)
   {
-    team_area.insertAdjacentHTML('beforeend', "<h4>Team " + team + "</h4>");
+    insert_str += "<h4>Team " + (parseInt(team) + 1) + "</h4>";
+    insert_str += '<ul class="jquery-ui-sortable">';
     for(let name in teams[team])
     {
-      team_area.insertAdjacentHTML('beforeend', teams[team][name]);
-      team_area.insertAdjacentHTML('beforeend', '<br>');
+      insert_str += createNameStr(teams[team][name], mode);
     }
+    insert_str += '</ul>';
+  }
+  insert_str += '<div style="clear: both;"></div>';
+  team_area.insertAdjacentHTML('beforeend', insert_str);
+
+  if(mode == 3)
+  {
+    $( '.jquery-ui-sortable' ) . sortable( {
+      connectWith: '.jquery-ui-sortable',
+      axis: "y",
+      cursor: 'move',
+      opacity: 0.6,
+      placeholder: 'ui-state-highlight',
+    } );
+    $( '.jquery-ui-sortable' ) . disableSelection();
   }
   sessionStorage.setItem('numTeams', num_teams);
   sessionStorage.setItem('groupingMode', mode);
   sessionStorage.setItem('teamsList', JSON.stringify(teams));
+}
+
+function setTeamWithManual(num_teams, mode, teams)
+{
 }
 
 function getModeSelected()
@@ -36,7 +85,8 @@ function getModeSelected()
 
 function applyTeam()
 {
-  let num_teams = parseInt(document.getElementById("inputNumTeams").value);
+  let input_num_teams = document.getElementById("inputNumTeams");
+  let num_teams = parseInt(input_num_teams.value);
   let num_players = parseInt(sessionStorage.getItem('numPlayers'));
   mode = getModeSelected();
 
@@ -47,6 +97,7 @@ function applyTeam()
   }
   else
   {
+    input_num_teams.max = num_players;
     return false;
   }
 }
@@ -70,6 +121,31 @@ function gameStart()
   }
   else
   {
+    let current_mode = getModeSelected();
+    if(current_mode == 3)
+    {
+      let area_manual = document.getElementById("team_area3");
+      let ulist = area_manual.getElementsByTagName("ul");
+
+      let teams = {};
+      Array.prototype.forEach.call(ulist, function(elem, idx) {
+        teams[idx] = [];
+        Array.prototype.forEach.call(elem.childNodes, function(name){
+          teams[idx].push(name.textContent);
+        });
+        console.log(teams[idx].length);
+        if(teams[idx].length)
+        {
+          return true;
+        }
+      });
+      if(teams.length)
+      {
+        return true;
+      }
+      console.log(teams);
+      sessionStorage.setItem('teamsList', JSON.stringify(teams));
+    }
     jump("./main.html");
   }
 }

@@ -29,7 +29,7 @@ function setInputScores()
   let name_id = 0;
   for(let team in teams)
   {
-    insert_str += "<h4>Team " + team + "</h4>";
+    insert_str += "<h4>Team " + (parseInt(team) + 1) + "</h4>";
     for(let idx in teams[team])
     {
       name = teams[team][idx];

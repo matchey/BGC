@@ -31,9 +31,9 @@ function showTotalRevenues(area_id)
   insert_str += "</table><h2>";
   if(area_id == "area_total")
   {
-    insert_str += '<button type="submit" onclick=jump("./grouping") name="button">Next Game</button>';
+    insert_str += '<button type="submit" onclick=jump("./grouping") name="button">Next Game</button>  ';
   }
-  insert_str += '<button type="submit" onclick=finishGame() name="button">Finish</button>';
+  insert_str += '  <button type="submit" onclick=finishGame() name="button">Finish</button>';
   insert_str += "</h2>";
   area_total.insertAdjacentHTML('beforeend', insert_str);
 }

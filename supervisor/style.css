@@ -1,13 +1,15 @@
 
 .area {
-  width: 500px;
+  width: 100%;
+  max-width: 380pt;
+  min-width: 240pt;
   margin: auto;
   flex-wrap: wrap;
   display: flex;
 }
 
 .tab_class {
-  width: calc(100%/5);
+  width: calc(100%/3.5);
   height: 50px;
   background-color: darkgrey;
   line-height: 50px;
@@ -30,6 +32,7 @@ input:checked + .tab_class {
 .content_class {
   display: none;
   width: 100%;
+  margin: 0.5em auto 0.5em 1.5em;
 }
 
 input:checked + .tab_class + .content_class {
@@ -41,7 +44,7 @@ input:checked + .tab_class + .content_class {
 }
 
 *, *:before, *:after {-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
-.result_tbl {border-collapse: collapse; width: 320px; margin: 0.5em auto 0.5em 1.5em;}
+.result_tbl {border-collapse: collapse; width: 320px; margin: 0;}
 .result_tbl th,.result_tbl td {padding: 0.5em 3%; border: 1px solid #aaa; vertical-align: top;}
 .result_tbl th {background: #eee; width: 5%;}
 .result_tbl td {background: #fff;}
@@ -60,5 +63,25 @@ input:checked + .tab_class + .content_class {
                              background-position: 34% center;
                              background-size: 1.5em;
                             }
+}
+
+ul.jquery-ui-sortable {
+  list-style-type: none;
+  margin: 0 2px;
+  padding: 2px;
+  width: 40%;
+  min-height: 1.5em;
+  background-color: #F0F8FF;
+}
+ul.jquery-ui-sortable li {
+  margin: 3px;
+  padding: 0.3em;
+  padding-left: 1em;
+  font-weight: bold;
+  cursor: move;
+}
+.ui-state-highlight {
+  height: 2.2em;
+  border: dotted 2px #AFEEEE;
 }
 
