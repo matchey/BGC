@@ -40,25 +40,24 @@ input:checked + .tab_class + .content_class {
   width: 3em;
 }
 
-
 *, *:before, *:after {-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
-.result_tbl {border-collapse: collapse; width: 80%; margin: 1em auto;}
+.result_tbl {border-collapse: collapse; width: 320px; margin: 0.5em auto 0.5em 1.5em;}
 .result_tbl th,.result_tbl td {padding: 0.5em 3%; border: 1px solid #aaa; vertical-align: top;}
 .result_tbl th {background: #eee; width: 5%;}
 .result_tbl td {background: #fff;}
 .tbl_number { text-align: right; }
-@media only screen and (max-width:480px) {
-  .result_tbl th,.result_tbl td {display: block; width: auto; border-bottom: none;}
+@media only screen and (max-width: 380px) {
+  .result_tbl th,.result_tbl td {display: block; width: 280px; border-bottom: none;}
   .result_tbl tr:last-child {border-bottom: 1px solid #aaa;}
   .result_tbl
   .tbl_number { background: #eee; }
   .tbl_number { text-align: center; }
   .result_tbl th:first-child {height: 0em; width: 0em; padding: 0em; margin: 0em; border: none }
-  .result_tbl th {background: #aaa; width: auto; padding: 0em; margin: 0.1em; text-align: left; }
+  .result_tbl th {background: #aaa; width: 280px; padding: 0em; margin: 0.1em; text-align: left; }
   .result_tbl td:last-child {border-bottom: 3px solid #aaa;
                              background-image: url(./yen.png);
                              background-repeat: no-repeat;
-                             background-position: 40% center;
+                             background-position: 34% center;
                              background-size: 1.5em;
                             }
 }
