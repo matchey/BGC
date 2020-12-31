@@ -40,7 +40,7 @@ function createNameInput(name, id)
 
 function syncPlayersNamesWithDB(input_players_list)
 {
-  let db_names = ["Alice", "Bob", "Cacy", "David"];
+  let db_names = ["Alice", "Dave", "Grace", "Bob", "Ellen", "Heidi", "Carol", "Frank"];
   const union = new Set([...input_players_list, ...db_names]);
   const player_names = [...union];
   // DBにlist投げて、player_namesを受け取る

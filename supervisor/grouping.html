@@ -20,31 +20,31 @@ layout: default
 <h3>
 Number of teams: 
 <input id="inputNumTeams" type="number" min="1" max="10">
-<button >Apply</button>
+<input type="button" value="Apply" onclick=applyTeam()>
 </h3>
 
 <div class="area">
 
   <input type="radio" name="tab_name" id="tab1" checked>
   <label class="tab_class" for="tab1">Random</label>
-  <div class="content_class">
+  <div class="content_class" id="team_area1">
   </div>
 
   <input type="radio" name="tab_name" id="tab2" >
   <label class="tab_class" for="tab2">Score Based</label>
-  <div class="content_class">
+  <div class="content_class" id="team_area2">
   </div>
 
   <input type="radio" name="tab_name" id="tab3" >
   <label class="tab_class" for="tab3">Manual</label>
-  <div class="content_class">
+  <div class="content_class" id="team_area3">
   </div>
 
 </div>
 
 <script>
-let numTeams = parseInt(sessionStorage.getItem('numTeams'));
-if(numTeams) document.getElementById("inputNumTeams").value = numTeams;
+setNumTeams();
+sessionStorage.setItem('groupingMode', 0);
 </script>
 
 
@@ -54,4 +54,7 @@ if(numTeams) document.getElementById("inputNumTeams").value = numTeams;
 </h2>
 
 menu: set params, current result
+param:
+  random avoid same
+  score based avoid same
 

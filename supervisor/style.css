@@ -36,3 +36,7 @@ input:checked + .tab_class + .content_class {
   display: block;
 }
 
+.num_handicap {
+  width: 3em;
+}
+
