@@ -121,6 +121,7 @@ function gameStart()
   }
   else
   {
+    let flag_zero = false;
     let current_mode = getModeSelected();
     if(current_mode == 3)
     {
@@ -133,17 +134,16 @@ function gameStart()
         Array.prototype.forEach.call(elem.childNodes, function(name){
           teams[idx].push(name.textContent);
         });
-        console.log(teams[idx].length);
-        if(teams[idx].length)
+        if(!teams[idx].length)
         {
-          return true;
+          flag_zero = true;
         }
       });
-      if(teams.length)
+      if(flag_zero || !Object.keys(teams).length)
       {
-        return true;
+        console.log('A team must have at least one person.');
+        return false;
       }
-      console.log(teams);
       sessionStorage.setItem('teamsList', JSON.stringify(teams));
     }
     jump("./main.html");

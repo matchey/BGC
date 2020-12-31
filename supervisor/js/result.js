@@ -14,6 +14,7 @@ function showTotalRevenues(area_id)
 
   let insert_str = "";
 
+  // TODO: impl onclick individual each games
   insert_str += "<table class='result_tbl'><tr><th></th><th>Score Average</th><th>Total Revenue</th></tr>";
 
   let total_data = {"Alice":{"ave":210, "revenue":500},
