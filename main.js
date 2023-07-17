@@ -8007,7 +8007,7 @@ var $simonh1000$elm_jwt$Jwt$Http$get = F2(
 			token,
 			{body: $elm$http$Http$emptyBody, expect: expect, url: url});
 	});
-var $author$project$Main$serverUrl = 'http://localhost:8821';
+var $author$project$Main$serverUrl = 'https://matchey.xyz:8821';
 var $author$project$Main$getCurrent = function (model) {
 	var token = function () {
 		var _v0 = model.tokenUserId;
@@ -8592,6 +8592,7 @@ var $author$project$Main$leaveGamePage = function (model) {
 					A2($elm$browser$Browser$Navigation$replaceUrl, model.key, '?')
 				])));
 };
+var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Basics$min = F2(
 	function (x, y) {
 		return (_Utils_cmp(x, y) < 0) ? x : y;
@@ -9683,7 +9684,7 @@ var $author$project$Main$update = F2(
 									loginStatus: $author$project$Main$LoginFail,
 									statusReason: $author$project$Main$errToString(err)
 								}),
-							$elm$core$Platform$Cmd$none);
+							$elm$browser$Browser$Navigation$load('https://matchey.github.io/BGC/html'));
 					}
 				case 'CreateGame':
 					return _Utils_Tuple2(
@@ -10055,7 +10056,7 @@ var $author$project$Main$update = F2(
 									_List_fromArray(
 										[
 											$author$project$Main$getJoinedIds(model),
-											A2($author$project$Main$getScoreRecord, model, score_size),
+											A2($author$project$Main$getScoreRecord, model, 50),
 											navbarCmd
 										])));
 						case 'Event':
@@ -10607,6 +10608,25 @@ var $rundis$elm_bootstrap$Bootstrap$Internal$Button$Attrs = function (a) {
 var $rundis$elm_bootstrap$Bootstrap$Button$attrs = function (attrs_) {
 	return $rundis$elm_bootstrap$Bootstrap$Internal$Button$Attrs(attrs_);
 };
+var $rundis$elm_bootstrap$Bootstrap$Form$Input$Attrs = function (a) {
+	return {$: 'Attrs', a: a};
+};
+var $rundis$elm_bootstrap$Bootstrap$Form$Input$attrs = function (attrs_) {
+	return $rundis$elm_bootstrap$Bootstrap$Form$Input$Attrs(attrs_);
+};
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$autocomplete = function (bool) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'autocomplete',
+		bool ? 'on' : 'off');
+};
 var $rundis$elm_bootstrap$Bootstrap$Card$Config = function (a) {
 	return {$: 'Config', a: a};
 };
@@ -10645,13 +10665,6 @@ var $rundis$elm_bootstrap$Bootstrap$Card$Internal$applyBlockModifier = F2(
 						attributes: _Utils_ap(options.attributes, attrs)
 					});
 		}
-	});
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $rundis$elm_bootstrap$Bootstrap$Card$Internal$defaultBlockOptions = {aligned: $elm$core$Maybe$Nothing, attributes: _List_Nil, coloring: $elm$core$Maybe$Nothing, textColoring: $elm$core$Maybe$Nothing};
@@ -11063,6 +11076,12 @@ var $elm$html$Html$Attributes$href = function (url) {
 		$elm$html$Html$Attributes$stringProperty,
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
+};
+var $rundis$elm_bootstrap$Bootstrap$Form$Input$Id = function (a) {
+	return {$: 'Id', a: a};
+};
+var $rundis$elm_bootstrap$Bootstrap$Form$Input$id = function (id_) {
+	return $rundis$elm_bootstrap$Bootstrap$Form$Input$Id(id_);
 };
 var $elm$html$Html$label = _VirtualDom_node('label');
 var $rundis$elm_bootstrap$Bootstrap$Form$label = F2(
@@ -12491,7 +12510,13 @@ var $author$project$Main$viewLogin = function (model) {
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('User ID'),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.user_id),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																								$author$project$Main$FormInput($author$project$Main$Fuser_id))
+																								$author$project$Main$FormInput($author$project$Main$Fuser_id)),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																								_List_fromArray(
+																									[
+																										$elm$html$Html$Attributes$autocomplete(true)
+																									])),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$id('username')
 																							]))
 																					]))
 																			])),
@@ -12520,7 +12545,13 @@ var $author$project$Main$viewLogin = function (model) {
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('Password'),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																								$author$project$Main$FormInput($author$project$Main$Fpass))
+																								$author$project$Main$FormInput($author$project$Main$Fpass)),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																								_List_fromArray(
+																									[
+																										$elm$html$Html$Attributes$autocomplete(true)
+																									])),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$id('password')
 																							]))
 																					]))
 																			])),
@@ -12575,6 +12606,8 @@ var $rundis$elm_bootstrap$Bootstrap$Button$secondary = $rundis$elm_bootstrap$Boo
 	$rundis$elm_bootstrap$Bootstrap$Internal$Button$Roled($rundis$elm_bootstrap$Bootstrap$Internal$Button$Secondary));
 var $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col10 = {$: 'Col10'};
 var $rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10 = A2($rundis$elm_bootstrap$Bootstrap$Grid$Internal$width, $rundis$elm_bootstrap$Bootstrap$General$Internal$XS, $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col10);
+var $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col11 = {$: 'Col11'};
+var $rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11 = A2($rundis$elm_bootstrap$Bootstrap$Grid$Internal$width, $rundis$elm_bootstrap$Bootstrap$General$Internal$XS, $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col11);
 var $author$project$Main$viewBegin = F2(
 	function (model, tn) {
 		return A2(
@@ -12586,7 +12619,7 @@ var $author$project$Main$viewBegin = F2(
 					A2(
 					$rundis$elm_bootstrap$Bootstrap$Grid$col,
 					_List_fromArray(
-						[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg6]),
+						[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg6]),
 					_List_fromArray(
 						[
 							$rundis$elm_bootstrap$Bootstrap$Card$view(
@@ -12629,7 +12662,7 @@ var $author$project$Main$viewBegin = F2(
 					A2(
 					$rundis$elm_bootstrap$Bootstrap$Grid$col,
 					_List_fromArray(
-						[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg6]),
+						[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg6]),
 					_List_fromArray(
 						[
 							$rundis$elm_bootstrap$Bootstrap$Card$view(
@@ -12852,12 +12885,6 @@ var $author$project$Main$FormScoreInput = F4(
 		return {$: 'FormScoreInput', a: a, b: b, c: c, d: d};
 	});
 var $author$project$Main$Fscore = {$: 'Fscore'};
-var $rundis$elm_bootstrap$Bootstrap$Form$Input$Attrs = function (a) {
-	return {$: 'Attrs', a: a};
-};
-var $rundis$elm_bootstrap$Bootstrap$Form$Input$attrs = function (attrs_) {
-	return $rundis$elm_bootstrap$Bootstrap$Form$Input$Attrs(attrs_);
-};
 var $rundis$elm_bootstrap$Bootstrap$Grid$Internal$ColAttrs = function (a) {
 	return {$: 'ColAttrs', a: a};
 };
@@ -13570,343 +13597,316 @@ var $author$project$Main$viewTeaming = F2(
 								_List_Nil,
 								_List_fromArray(
 									[
+										$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
 										A2(
-										$rundis$elm_bootstrap$Bootstrap$Card$Block$text,
-										_List_Nil,
-										_List_fromArray(
-											[
-												$elm$html$Html$text('eventId: ' + model.eventId)
-											])),
-										A2(
-										$rundis$elm_bootstrap$Bootstrap$Card$Block$text,
-										_List_Nil,
-										_List_fromArray(
-											[
-												$elm$html$Html$text('gameId: ' + model.gameId)
-											])),
-										A2(
-										$rundis$elm_bootstrap$Bootstrap$Card$Block$text,
-										_List_Nil,
-										_List_fromArray(
-											[
-												$elm$html$Html$text('reason: ' + model.statusReason)
-											]))
+											$rundis$elm_bootstrap$Bootstrap$Grid$container,
+											_List_fromArray(
+												[$rundis$elm_bootstrap$Bootstrap$Utilities$Flex$block, $rundis$elm_bootstrap$Bootstrap$Utilities$Flex$justifyStartLg, $rundis$elm_bootstrap$Bootstrap$Utilities$Flex$justifyEnd]),
+											_List_fromArray(
+												[
+													A2(
+													$rundis$elm_bootstrap$Bootstrap$Grid$row,
+													_List_fromArray(
+														[$rundis$elm_bootstrap$Bootstrap$Grid$Row$centerXs]),
+													_List_fromArray(
+														[
+															A2(
+															$rundis$elm_bootstrap$Bootstrap$Grid$col,
+															_List_Nil,
+															_List_fromArray(
+																[
+																	A2(
+																	$rundis$elm_bootstrap$Bootstrap$Button$button,
+																	_List_fromArray(
+																		[
+																			$rundis$elm_bootstrap$Bootstrap$Button$primary,
+																			$rundis$elm_bootstrap$Bootstrap$Button$disabled(
+																			$elm$core$List$isEmpty(model.teams)),
+																			$rundis$elm_bootstrap$Bootstrap$Button$onClick($author$project$Main$StartGame)
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('Start a game')
+																		]))
+																]))
+														]))
+												])))
 									]),
 								A3(
 									$rundis$elm_bootstrap$Bootstrap$Card$block,
 									_List_Nil,
-									_List_fromArray(
-										[
-											$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
-											A2(
-												$rundis$elm_bootstrap$Bootstrap$Grid$container,
-												_List_fromArray(
-													[$rundis$elm_bootstrap$Bootstrap$Utilities$Flex$block, $rundis$elm_bootstrap$Bootstrap$Utilities$Flex$justifyStartLg, $rundis$elm_bootstrap$Bootstrap$Utilities$Flex$justifyEnd]),
-												_List_fromArray(
-													[
-														A2(
-														$rundis$elm_bootstrap$Bootstrap$Grid$row,
-														_List_fromArray(
-															[$rundis$elm_bootstrap$Bootstrap$Grid$Row$centerXs]),
-														_List_fromArray(
-															[
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Button$button,
-																		_List_fromArray(
-																			[
-																				$rundis$elm_bootstrap$Bootstrap$Button$primary,
-																				$rundis$elm_bootstrap$Bootstrap$Button$disabled(
-																				$elm$core$List$isEmpty(model.teams)),
-																				$rundis$elm_bootstrap$Bootstrap$Button$onClick($author$project$Main$StartGame)
-																			]),
-																		_List_fromArray(
-																			[
-																				$elm$html$Html$text('Start a game')
-																			]))
-																	]))
-															]))
-													])))
-										]),
+									$author$project$Main$viewTeams(model),
 									A3(
 										$rundis$elm_bootstrap$Bootstrap$Card$block,
 										_List_Nil,
-										$author$project$Main$viewTeams(model),
-										A3(
-											$rundis$elm_bootstrap$Bootstrap$Card$block,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
-													A2(
-														$rundis$elm_bootstrap$Bootstrap$Grid$container,
-														_List_Nil,
-														_List_fromArray(
-															[
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Form$row,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Form$col,
-																		_List_Nil,
-																		_List_fromArray(
-																			[
-																				A2(
-																				$rundis$elm_bootstrap$Bootstrap$Form$form,
-																				_List_Nil,
-																				_List_fromArray(
-																					[
-																						A2(
-																						$rundis$elm_bootstrap$Bootstrap$Form$label,
-																						_List_fromArray(
-																							[$rundis$elm_bootstrap$Bootstrap$Utilities$Spacing$m0]),
-																						_List_fromArray(
-																							[
-																								$elm$html$Html$text('Input game settings')
-																							]))
-																					]))
-																			]))
-																	])),
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Form$row,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Form$col,
-																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs5, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg2]),
-																		_List_fromArray(
-																			[
-																				A2(
-																				$rundis$elm_bootstrap$Bootstrap$Form$form,
-																				_List_Nil,
-																				_List_fromArray(
-																					[
-																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
-																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
-																							A2(
-																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$predecessors,
-																								_List_fromArray(
-																									[
-																										A2(
-																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$span,
-																										_List_Nil,
-																										_List_fromArray(
-																											[
-																												$elm$html$Html$text('Unit')
-																											]))
-																									]),
-																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$number(
-																										_List_fromArray(
-																											[
-																												$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputGameSettings.minUnit),
-																												$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																												$author$project$Main$FormInput($author$project$Main$Fmin_unit))
-																											]))))))
-																					]))
-																			])),
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Form$col,
-																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs5, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg2]),
-																		_List_fromArray(
-																			[
-																				A2(
-																				$rundis$elm_bootstrap$Bootstrap$Form$form,
-																				_List_Nil,
-																				_List_fromArray(
-																					[
-																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
-																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
-																							A2(
-																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$predecessors,
-																								_List_fromArray(
-																									[
-																										A2(
-																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$span,
-																										_List_Nil,
-																										_List_fromArray(
-																											[
-																												$elm$html$Html$text('Rate')
-																											]))
-																									]),
-																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$number(
-																										_List_fromArray(
-																											[
-																												$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputGameSettings.rate),
-																												$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																												$author$project$Main$FormInput($author$project$Main$Frate))
-																											]))))))
-																					]))
-																			]))
-																	]))
-															]))),
-													$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
-													A2(
-														$rundis$elm_bootstrap$Bootstrap$Grid$container,
-														_List_Nil,
-														_List_fromArray(
-															[
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Grid$row,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
-																		_List_fromArray(
-																			[
-																				A2(
-																				$rundis$elm_bootstrap$Bootstrap$Form$form,
-																				_List_Nil,
-																				_List_fromArray(
-																					[
-																						A2(
-																						$rundis$elm_bootstrap$Bootstrap$Form$label,
-																						_List_Nil,
-																						_List_fromArray(
-																							[
-																								$elm$html$Html$text('Divide the players into teams')
-																							])),
-																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
-																						A2(
-																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$successors,
-																							_List_fromArray(
-																								[
-																									A2(
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$button,
-																									_List_fromArray(
-																										[
-																											$rundis$elm_bootstrap$Bootstrap$Button$info,
-																											$rundis$elm_bootstrap$Bootstrap$Button$onClick($author$project$Main$ApplyTeaming),
-																											$rundis$elm_bootstrap$Bootstrap$Button$disabled(
-																											!A2($author$project$Main$validNumTeams, model, model.inputGameSettings.numTeams))
-																										]),
-																									_List_fromArray(
-																										[
-																											$elm$html$Html$text('Apply')
-																										]))
-																								]),
-																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
-																								A2(
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$predecessors,
-																									_List_fromArray(
-																										[
-																											A2(
-																											$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$span,
-																											_List_Nil,
-																											_List_fromArray(
-																												[
-																													$elm$html$Html$text('Number of teams')
-																												]))
-																										]),
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
-																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$number(
-																											_List_fromArray(
-																												[
-																													$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputGameSettings.numTeams),
-																													$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																													$author$project$Main$FormInput($author$project$Main$Fnum_teams))
-																												])))))))
-																					]))
-																			]))
-																	]))
-															])))
-												]),
-											A3(
-												$rundis$elm_bootstrap$Bootstrap$Card$block,
-												_List_Nil,
-												$author$project$Main$viewUsers(model),
-												A3(
-													$rundis$elm_bootstrap$Bootstrap$Card$block,
+										_List_fromArray(
+											[
+												$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
+												A2(
+													$rundis$elm_bootstrap$Bootstrap$Grid$container,
 													_List_Nil,
 													_List_fromArray(
 														[
-															$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
 															A2(
-																$rundis$elm_bootstrap$Bootstrap$Grid$container,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Grid$row,
-																		_List_Nil,
-																		_List_fromArray(
-																			[
-																				A2(
-																				$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																				_List_fromArray(
-																					[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
-																				_List_fromArray(
-																					[
+															$rundis$elm_bootstrap$Bootstrap$Form$row,
+															_List_Nil,
+															_List_fromArray(
+																[
+																	A2(
+																	$rundis$elm_bootstrap$Bootstrap$Form$col,
+																	_List_Nil,
+																	_List_fromArray(
+																		[
+																			A2(
+																			$rundis$elm_bootstrap$Bootstrap$Form$form,
+																			_List_Nil,
+																			_List_fromArray(
+																				[
+																					A2(
+																					$rundis$elm_bootstrap$Bootstrap$Form$label,
+																					_List_fromArray(
+																						[$rundis$elm_bootstrap$Bootstrap$Utilities$Spacing$m0]),
+																					_List_fromArray(
+																						[
+																							$elm$html$Html$text('Input game settings')
+																						]))
+																				]))
+																		]))
+																])),
+															A2(
+															$rundis$elm_bootstrap$Bootstrap$Form$row,
+															_List_Nil,
+															_List_fromArray(
+																[
+																	A2(
+																	$rundis$elm_bootstrap$Bootstrap$Form$col,
+																	_List_fromArray(
+																		[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs5, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg2]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$rundis$elm_bootstrap$Bootstrap$Form$form,
+																			_List_Nil,
+																			_List_fromArray(
+																				[
+																					$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
+																					$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
 																						A2(
-																						$rundis$elm_bootstrap$Bootstrap$Form$form,
-																						_List_Nil,
+																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$predecessors,
+																							_List_fromArray(
+																								[
+																									A2(
+																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$span,
+																									_List_Nil,
+																									_List_fromArray(
+																										[
+																											$elm$html$Html$text('Unit')
+																										]))
+																								]),
+																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$number(
+																									_List_fromArray(
+																										[
+																											$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputGameSettings.minUnit),
+																											$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																											$author$project$Main$FormInput($author$project$Main$Fmin_unit))
+																										]))))))
+																				]))
+																		])),
+																	A2(
+																	$rundis$elm_bootstrap$Bootstrap$Form$col,
+																	_List_fromArray(
+																		[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs5, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg2]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$rundis$elm_bootstrap$Bootstrap$Form$form,
+																			_List_Nil,
+																			_List_fromArray(
+																				[
+																					$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
+																					$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
+																						A2(
+																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$predecessors,
+																							_List_fromArray(
+																								[
+																									A2(
+																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$span,
+																									_List_Nil,
+																									_List_fromArray(
+																										[
+																											$elm$html$Html$text('Rate')
+																										]))
+																								]),
+																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$number(
+																									_List_fromArray(
+																										[
+																											$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputGameSettings.rate),
+																											$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																											$author$project$Main$FormInput($author$project$Main$Frate))
+																										]))))))
+																				]))
+																		]))
+																]))
+														]))),
+												$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
+												A2(
+													$rundis$elm_bootstrap$Bootstrap$Grid$container,
+													_List_Nil,
+													_List_fromArray(
+														[
+															A2(
+															$rundis$elm_bootstrap$Bootstrap$Grid$row,
+															_List_Nil,
+															_List_fromArray(
+																[
+																	A2(
+																	$rundis$elm_bootstrap$Bootstrap$Grid$col,
+																	_List_fromArray(
+																		[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
+																	_List_fromArray(
+																		[
+																			A2(
+																			$rundis$elm_bootstrap$Bootstrap$Form$form,
+																			_List_Nil,
+																			_List_fromArray(
+																				[
+																					A2(
+																					$rundis$elm_bootstrap$Bootstrap$Form$label,
+																					_List_Nil,
+																					_List_fromArray(
+																						[
+																							$elm$html$Html$text('Divide the players into teams')
+																						])),
+																					$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
+																					A2(
+																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$successors,
 																						_List_fromArray(
 																							[
 																								A2(
-																								$rundis$elm_bootstrap$Bootstrap$Form$label,
-																								_List_Nil,
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$button,
 																								_List_fromArray(
 																									[
-																										$elm$html$Html$text('Share this link with players.')
-																									])),
-																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
-																								A2(
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$successors,
-																									_List_fromArray(
-																										[
-																											A2(
-																											$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$button,
-																											_List_fromArray(
-																												[
-																													$rundis$elm_bootstrap$Bootstrap$Button$light,
-																													$rundis$elm_bootstrap$Bootstrap$Button$attrs(
-																													_List_fromArray(
-																														[
-																															$elm$html$Html$Attributes$id('id_copy_button')
-																														])),
-																													$rundis$elm_bootstrap$Bootstrap$Button$onClick(
-																													A2($author$project$Main$Copy, 'id_copy_input', 'id_copy_button'))
-																												]),
-																											_List_fromArray(
-																												[
-																													$elm$html$Html$text('Copy')
-																												]))
-																										]),
-																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
-																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
-																											$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$url(
+																										$rundis$elm_bootstrap$Bootstrap$Button$info,
+																										$rundis$elm_bootstrap$Bootstrap$Button$onClick($author$project$Main$ApplyTeaming),
+																										$rundis$elm_bootstrap$Bootstrap$Button$disabled(
+																										!A2($author$project$Main$validNumTeams, model, model.inputGameSettings.numTeams))
+																									]),
+																								_List_fromArray(
+																									[
+																										$elm$html$Html$text('Apply')
+																									]))
+																							]),
+																						$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
+																							A2(
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$predecessors,
+																								_List_fromArray(
+																									[
+																										A2(
+																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$span,
+																										_List_Nil,
+																										_List_fromArray(
+																											[
+																												$elm$html$Html$text('Number of teams')
+																											]))
+																									]),
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
+																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$number(
+																										_List_fromArray(
+																											[
+																												$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputGameSettings.numTeams),
+																												$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																												$author$project$Main$FormInput($author$project$Main$Fnum_teams))
+																											])))))))
+																				]))
+																		]))
+																]))
+														])))
+											]),
+										A3(
+											$rundis$elm_bootstrap$Bootstrap$Card$block,
+											_List_Nil,
+											$author$project$Main$viewUsers(model),
+											A3(
+												$rundis$elm_bootstrap$Bootstrap$Card$block,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
+														A2(
+															$rundis$elm_bootstrap$Bootstrap$Grid$container,
+															_List_Nil,
+															_List_fromArray(
+																[
+																	A2(
+																	$rundis$elm_bootstrap$Bootstrap$Grid$row,
+																	_List_Nil,
+																	_List_fromArray(
+																		[
+																			A2(
+																			$rundis$elm_bootstrap$Bootstrap$Grid$col,
+																			_List_fromArray(
+																				[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs10, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
+																			_List_fromArray(
+																				[
+																					A2(
+																					$rundis$elm_bootstrap$Bootstrap$Form$form,
+																					_List_Nil,
+																					_List_fromArray(
+																						[
+																							A2(
+																							$rundis$elm_bootstrap$Bootstrap$Form$label,
+																							_List_Nil,
+																							_List_fromArray(
+																								[
+																									$elm$html$Html$text('Share this link with players.')
+																								])),
+																							$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$view(
+																							A2(
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$successors,
+																								_List_fromArray(
+																									[
+																										A2(
+																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$button,
+																										_List_fromArray(
+																											[
+																												$rundis$elm_bootstrap$Bootstrap$Button$light,
+																												$rundis$elm_bootstrap$Bootstrap$Button$attrs(
 																												_List_fromArray(
 																													[
-																														$rundis$elm_bootstrap$Bootstrap$Form$Input$value(
-																														$elm$url$Url$toString(model.url)),
-																														$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
-																														_List_fromArray(
-																															[
-																																$elm$html$Html$Attributes$id('id_copy_input')
-																															])),
-																														$rundis$elm_bootstrap$Bootstrap$Form$Input$readonly(true)
-																													]))))))
-																							]))
-																					]))
-																			]))
-																	])))
-														]),
-													$rundis$elm_bootstrap$Bootstrap$Card$config(
-														_List_fromArray(
-															[$rundis$elm_bootstrap$Bootstrap$Card$outlineLight])))))))))
+																														$elm$html$Html$Attributes$id('id_copy_button')
+																													])),
+																												$rundis$elm_bootstrap$Bootstrap$Button$onClick(
+																												A2($author$project$Main$Copy, 'id_copy_input', 'id_copy_button'))
+																											]),
+																										_List_fromArray(
+																											[
+																												$elm$html$Html$text('Copy')
+																											]))
+																									]),
+																								$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$small(
+																									$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$config(
+																										$rundis$elm_bootstrap$Bootstrap$Form$InputGroup$url(
+																											_List_fromArray(
+																												[
+																													$rundis$elm_bootstrap$Bootstrap$Form$Input$value(
+																													$elm$url$Url$toString(model.url)),
+																													$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																													_List_fromArray(
+																														[
+																															$elm$html$Html$Attributes$id('id_copy_input')
+																														])),
+																													$rundis$elm_bootstrap$Bootstrap$Form$Input$readonly(true)
+																												]))))))
+																						]))
+																				]))
+																		]))
+																])))
+													]),
+												$rundis$elm_bootstrap$Bootstrap$Card$config(
+													_List_fromArray(
+														[$rundis$elm_bootstrap$Bootstrap$Card$outlineLight]))))))))
 						]))
 				]));
 	});
@@ -14909,6 +14909,275 @@ var $rundis$elm_bootstrap$Bootstrap$Form$Select$attrs = function (attrs_) {
 	return $rundis$elm_bootstrap$Bootstrap$Form$Select$Attrs(attrs_);
 };
 var $rundis$elm_bootstrap$Bootstrap$Grid$Col$bottomXs = A2($rundis$elm_bootstrap$Bootstrap$Grid$Internal$colVAlign, $rundis$elm_bootstrap$Bootstrap$General$Internal$XS, $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Bottom);
+var $elm$core$Basics$abs = function (n) {
+	return (n < 0) ? (-n) : n;
+};
+var $myrho$elm_round$Round$addSign = F2(
+	function (signed, str) {
+		var isNotZero = A2(
+			$elm$core$List$any,
+			function (c) {
+				return (!_Utils_eq(
+					c,
+					_Utils_chr('0'))) && (!_Utils_eq(
+					c,
+					_Utils_chr('.')));
+			},
+			$elm$core$String$toList(str));
+		return _Utils_ap(
+			(signed && isNotZero) ? '-' : '',
+			str);
+	});
+var $elm$core$String$cons = _String_cons;
+var $elm$core$Char$fromCode = _Char_fromCode;
+var $myrho$elm_round$Round$increaseNum = function (_v0) {
+	var head = _v0.a;
+	var tail = _v0.b;
+	if (_Utils_eq(
+		head,
+		_Utils_chr('9'))) {
+		var _v1 = $elm$core$String$uncons(tail);
+		if (_v1.$ === 'Nothing') {
+			return '01';
+		} else {
+			var headtail = _v1.a;
+			return A2(
+				$elm$core$String$cons,
+				_Utils_chr('0'),
+				$myrho$elm_round$Round$increaseNum(headtail));
+		}
+	} else {
+		var c = $elm$core$Char$toCode(head);
+		return ((c >= 48) && (c < 57)) ? A2(
+			$elm$core$String$cons,
+			$elm$core$Char$fromCode(c + 1),
+			tail) : '0';
+	}
+};
+var $elm$core$Basics$isInfinite = _Basics_isInfinite;
+var $elm$core$Basics$isNaN = _Basics_isNaN;
+var $elm$core$String$fromChar = function (_char) {
+	return A2($elm$core$String$cons, _char, '');
+};
+var $elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
+var $elm$core$String$repeatHelp = F3(
+	function (n, chunk, result) {
+		return (n <= 0) ? result : A3(
+			$elm$core$String$repeatHelp,
+			n >> 1,
+			_Utils_ap(chunk, chunk),
+			(!(n & 1)) ? result : _Utils_ap(result, chunk));
+	});
+var $elm$core$String$repeat = F2(
+	function (n, chunk) {
+		return A3($elm$core$String$repeatHelp, n, chunk, '');
+	});
+var $elm$core$String$padRight = F3(
+	function (n, _char, string) {
+		return _Utils_ap(
+			string,
+			A2(
+				$elm$core$String$repeat,
+				n - $elm$core$String$length(string),
+				$elm$core$String$fromChar(_char)));
+	});
+var $elm$core$String$reverse = _String_reverse;
+var $myrho$elm_round$Round$splitComma = function (str) {
+	var _v0 = A2($elm$core$String$split, '.', str);
+	if (_v0.b) {
+		if (_v0.b.b) {
+			var before = _v0.a;
+			var _v1 = _v0.b;
+			var after = _v1.a;
+			return _Utils_Tuple2(before, after);
+		} else {
+			var before = _v0.a;
+			return _Utils_Tuple2(before, '0');
+		}
+	} else {
+		return _Utils_Tuple2('0', '0');
+	}
+};
+var $elm$core$Tuple$mapFirst = F2(
+	function (func, _v0) {
+		var x = _v0.a;
+		var y = _v0.b;
+		return _Utils_Tuple2(
+			func(x),
+			y);
+	});
+var $myrho$elm_round$Round$toDecimal = function (fl) {
+	var _v0 = A2(
+		$elm$core$String$split,
+		'e',
+		$elm$core$String$fromFloat(
+			$elm$core$Basics$abs(fl)));
+	if (_v0.b) {
+		if (_v0.b.b) {
+			var num = _v0.a;
+			var _v1 = _v0.b;
+			var exp = _v1.a;
+			var e = A2(
+				$elm$core$Maybe$withDefault,
+				0,
+				$elm$core$String$toInt(
+					A2($elm$core$String$startsWith, '+', exp) ? A2($elm$core$String$dropLeft, 1, exp) : exp));
+			var _v2 = $myrho$elm_round$Round$splitComma(num);
+			var before = _v2.a;
+			var after = _v2.b;
+			var total = _Utils_ap(before, after);
+			var zeroed = (e < 0) ? A2(
+				$elm$core$Maybe$withDefault,
+				'0',
+				A2(
+					$elm$core$Maybe$map,
+					function (_v3) {
+						var a = _v3.a;
+						var b = _v3.b;
+						return a + ('.' + b);
+					},
+					A2(
+						$elm$core$Maybe$map,
+						$elm$core$Tuple$mapFirst($elm$core$String$fromChar),
+						$elm$core$String$uncons(
+							_Utils_ap(
+								A2(
+									$elm$core$String$repeat,
+									$elm$core$Basics$abs(e),
+									'0'),
+								total))))) : A3(
+				$elm$core$String$padRight,
+				e + 1,
+				_Utils_chr('0'),
+				total);
+			return _Utils_ap(
+				(fl < 0) ? '-' : '',
+				zeroed);
+		} else {
+			var num = _v0.a;
+			return _Utils_ap(
+				(fl < 0) ? '-' : '',
+				num);
+		}
+	} else {
+		return '';
+	}
+};
+var $myrho$elm_round$Round$roundFun = F3(
+	function (functor, s, fl) {
+		if ($elm$core$Basics$isInfinite(fl) || $elm$core$Basics$isNaN(fl)) {
+			return $elm$core$String$fromFloat(fl);
+		} else {
+			var signed = fl < 0;
+			var _v0 = $myrho$elm_round$Round$splitComma(
+				$myrho$elm_round$Round$toDecimal(
+					$elm$core$Basics$abs(fl)));
+			var before = _v0.a;
+			var after = _v0.b;
+			var r = $elm$core$String$length(before) + s;
+			var normalized = _Utils_ap(
+				A2($elm$core$String$repeat, (-r) + 1, '0'),
+				A3(
+					$elm$core$String$padRight,
+					r,
+					_Utils_chr('0'),
+					_Utils_ap(before, after)));
+			var totalLen = $elm$core$String$length(normalized);
+			var roundDigitIndex = A2($elm$core$Basics$max, 1, r);
+			var increase = A2(
+				functor,
+				signed,
+				A3($elm$core$String$slice, roundDigitIndex, totalLen, normalized));
+			var remains = A3($elm$core$String$slice, 0, roundDigitIndex, normalized);
+			var num = increase ? $elm$core$String$reverse(
+				A2(
+					$elm$core$Maybe$withDefault,
+					'1',
+					A2(
+						$elm$core$Maybe$map,
+						$myrho$elm_round$Round$increaseNum,
+						$elm$core$String$uncons(
+							$elm$core$String$reverse(remains))))) : remains;
+			var numLen = $elm$core$String$length(num);
+			var numZeroed = (num === '0') ? num : ((s <= 0) ? _Utils_ap(
+				num,
+				A2(
+					$elm$core$String$repeat,
+					$elm$core$Basics$abs(s),
+					'0')) : ((_Utils_cmp(
+				s,
+				$elm$core$String$length(after)) < 0) ? (A3($elm$core$String$slice, 0, numLen - s, num) + ('.' + A3($elm$core$String$slice, numLen - s, numLen, num))) : _Utils_ap(
+				before + '.',
+				A3(
+					$elm$core$String$padRight,
+					s,
+					_Utils_chr('0'),
+					after))));
+			return A2($myrho$elm_round$Round$addSign, signed, numZeroed);
+		}
+	});
+var $myrho$elm_round$Round$round = $myrho$elm_round$Round$roundFun(
+	F2(
+		function (signed, str) {
+			var _v0 = $elm$core$String$uncons(str);
+			if (_v0.$ === 'Nothing') {
+				return false;
+			} else {
+				if ('5' === _v0.a.a.valueOf()) {
+					if (_v0.a.b === '') {
+						var _v1 = _v0.a;
+						return !signed;
+					} else {
+						var _v2 = _v0.a;
+						return true;
+					}
+				} else {
+					var _v3 = _v0.a;
+					var _int = _v3.a;
+					return function (i) {
+						return ((i > 53) && signed) || ((i >= 53) && (!signed));
+					}(
+						$elm$core$Char$toCode(_int));
+				}
+			}
+		}));
+var $elm$core$List$sum = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
+};
+var $author$project$Main$average = F2(
+	function (list, length) {
+		var size = A2(
+			$elm$core$Basics$min,
+			length,
+			$elm$core$List$length(list));
+		return (!size) ? '0' : A2(
+			$myrho$elm_round$Round$round,
+			1,
+			$elm$core$List$sum(
+				A2($elm$core$List$take, size, list)) / size);
+	});
+var $elm$core$List$maximum = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(
+			A3($elm$core$List$foldl, $elm$core$Basics$max, x, xs));
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Main$highAndAverage = function (result) {
+	var high = $elm$core$String$fromInt(
+		A2(
+			$elm$core$Maybe$withDefault,
+			0,
+			$elm$core$List$maximum(result.score_list)));
+	var ave = A2(
+		$author$project$Main$average,
+		result.score_list,
+		$elm$core$List$length(result.score_list));
+	return _Utils_Tuple2(high, ave);
+};
 var $rundis$elm_bootstrap$Bootstrap$Form$Select$Id = function (a) {
 	return {$: 'Id', a: a};
 };
@@ -15568,253 +15837,6 @@ var $rundis$elm_bootstrap$Bootstrap$Table$tr = F2(
 	function (options, cells) {
 		return $rundis$elm_bootstrap$Bootstrap$Table$Row(
 			{cells: cells, options: options});
-	});
-var $elm$core$Basics$abs = function (n) {
-	return (n < 0) ? (-n) : n;
-};
-var $myrho$elm_round$Round$addSign = F2(
-	function (signed, str) {
-		var isNotZero = A2(
-			$elm$core$List$any,
-			function (c) {
-				return (!_Utils_eq(
-					c,
-					_Utils_chr('0'))) && (!_Utils_eq(
-					c,
-					_Utils_chr('.')));
-			},
-			$elm$core$String$toList(str));
-		return _Utils_ap(
-			(signed && isNotZero) ? '-' : '',
-			str);
-	});
-var $elm$core$String$cons = _String_cons;
-var $elm$core$Char$fromCode = _Char_fromCode;
-var $myrho$elm_round$Round$increaseNum = function (_v0) {
-	var head = _v0.a;
-	var tail = _v0.b;
-	if (_Utils_eq(
-		head,
-		_Utils_chr('9'))) {
-		var _v1 = $elm$core$String$uncons(tail);
-		if (_v1.$ === 'Nothing') {
-			return '01';
-		} else {
-			var headtail = _v1.a;
-			return A2(
-				$elm$core$String$cons,
-				_Utils_chr('0'),
-				$myrho$elm_round$Round$increaseNum(headtail));
-		}
-	} else {
-		var c = $elm$core$Char$toCode(head);
-		return ((c >= 48) && (c < 57)) ? A2(
-			$elm$core$String$cons,
-			$elm$core$Char$fromCode(c + 1),
-			tail) : '0';
-	}
-};
-var $elm$core$Basics$isInfinite = _Basics_isInfinite;
-var $elm$core$Basics$isNaN = _Basics_isNaN;
-var $elm$core$String$fromChar = function (_char) {
-	return A2($elm$core$String$cons, _char, '');
-};
-var $elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
-var $elm$core$String$repeatHelp = F3(
-	function (n, chunk, result) {
-		return (n <= 0) ? result : A3(
-			$elm$core$String$repeatHelp,
-			n >> 1,
-			_Utils_ap(chunk, chunk),
-			(!(n & 1)) ? result : _Utils_ap(result, chunk));
-	});
-var $elm$core$String$repeat = F2(
-	function (n, chunk) {
-		return A3($elm$core$String$repeatHelp, n, chunk, '');
-	});
-var $elm$core$String$padRight = F3(
-	function (n, _char, string) {
-		return _Utils_ap(
-			string,
-			A2(
-				$elm$core$String$repeat,
-				n - $elm$core$String$length(string),
-				$elm$core$String$fromChar(_char)));
-	});
-var $elm$core$String$reverse = _String_reverse;
-var $myrho$elm_round$Round$splitComma = function (str) {
-	var _v0 = A2($elm$core$String$split, '.', str);
-	if (_v0.b) {
-		if (_v0.b.b) {
-			var before = _v0.a;
-			var _v1 = _v0.b;
-			var after = _v1.a;
-			return _Utils_Tuple2(before, after);
-		} else {
-			var before = _v0.a;
-			return _Utils_Tuple2(before, '0');
-		}
-	} else {
-		return _Utils_Tuple2('0', '0');
-	}
-};
-var $elm$core$Tuple$mapFirst = F2(
-	function (func, _v0) {
-		var x = _v0.a;
-		var y = _v0.b;
-		return _Utils_Tuple2(
-			func(x),
-			y);
-	});
-var $myrho$elm_round$Round$toDecimal = function (fl) {
-	var _v0 = A2(
-		$elm$core$String$split,
-		'e',
-		$elm$core$String$fromFloat(
-			$elm$core$Basics$abs(fl)));
-	if (_v0.b) {
-		if (_v0.b.b) {
-			var num = _v0.a;
-			var _v1 = _v0.b;
-			var exp = _v1.a;
-			var e = A2(
-				$elm$core$Maybe$withDefault,
-				0,
-				$elm$core$String$toInt(
-					A2($elm$core$String$startsWith, '+', exp) ? A2($elm$core$String$dropLeft, 1, exp) : exp));
-			var _v2 = $myrho$elm_round$Round$splitComma(num);
-			var before = _v2.a;
-			var after = _v2.b;
-			var total = _Utils_ap(before, after);
-			var zeroed = (e < 0) ? A2(
-				$elm$core$Maybe$withDefault,
-				'0',
-				A2(
-					$elm$core$Maybe$map,
-					function (_v3) {
-						var a = _v3.a;
-						var b = _v3.b;
-						return a + ('.' + b);
-					},
-					A2(
-						$elm$core$Maybe$map,
-						$elm$core$Tuple$mapFirst($elm$core$String$fromChar),
-						$elm$core$String$uncons(
-							_Utils_ap(
-								A2(
-									$elm$core$String$repeat,
-									$elm$core$Basics$abs(e),
-									'0'),
-								total))))) : A3(
-				$elm$core$String$padRight,
-				e + 1,
-				_Utils_chr('0'),
-				total);
-			return _Utils_ap(
-				(fl < 0) ? '-' : '',
-				zeroed);
-		} else {
-			var num = _v0.a;
-			return _Utils_ap(
-				(fl < 0) ? '-' : '',
-				num);
-		}
-	} else {
-		return '';
-	}
-};
-var $myrho$elm_round$Round$roundFun = F3(
-	function (functor, s, fl) {
-		if ($elm$core$Basics$isInfinite(fl) || $elm$core$Basics$isNaN(fl)) {
-			return $elm$core$String$fromFloat(fl);
-		} else {
-			var signed = fl < 0;
-			var _v0 = $myrho$elm_round$Round$splitComma(
-				$myrho$elm_round$Round$toDecimal(
-					$elm$core$Basics$abs(fl)));
-			var before = _v0.a;
-			var after = _v0.b;
-			var r = $elm$core$String$length(before) + s;
-			var normalized = _Utils_ap(
-				A2($elm$core$String$repeat, (-r) + 1, '0'),
-				A3(
-					$elm$core$String$padRight,
-					r,
-					_Utils_chr('0'),
-					_Utils_ap(before, after)));
-			var totalLen = $elm$core$String$length(normalized);
-			var roundDigitIndex = A2($elm$core$Basics$max, 1, r);
-			var increase = A2(
-				functor,
-				signed,
-				A3($elm$core$String$slice, roundDigitIndex, totalLen, normalized));
-			var remains = A3($elm$core$String$slice, 0, roundDigitIndex, normalized);
-			var num = increase ? $elm$core$String$reverse(
-				A2(
-					$elm$core$Maybe$withDefault,
-					'1',
-					A2(
-						$elm$core$Maybe$map,
-						$myrho$elm_round$Round$increaseNum,
-						$elm$core$String$uncons(
-							$elm$core$String$reverse(remains))))) : remains;
-			var numLen = $elm$core$String$length(num);
-			var numZeroed = (num === '0') ? num : ((s <= 0) ? _Utils_ap(
-				num,
-				A2(
-					$elm$core$String$repeat,
-					$elm$core$Basics$abs(s),
-					'0')) : ((_Utils_cmp(
-				s,
-				$elm$core$String$length(after)) < 0) ? (A3($elm$core$String$slice, 0, numLen - s, num) + ('.' + A3($elm$core$String$slice, numLen - s, numLen, num))) : _Utils_ap(
-				before + '.',
-				A3(
-					$elm$core$String$padRight,
-					s,
-					_Utils_chr('0'),
-					after))));
-			return A2($myrho$elm_round$Round$addSign, signed, numZeroed);
-		}
-	});
-var $myrho$elm_round$Round$round = $myrho$elm_round$Round$roundFun(
-	F2(
-		function (signed, str) {
-			var _v0 = $elm$core$String$uncons(str);
-			if (_v0.$ === 'Nothing') {
-				return false;
-			} else {
-				if ('5' === _v0.a.a.valueOf()) {
-					if (_v0.a.b === '') {
-						var _v1 = _v0.a;
-						return !signed;
-					} else {
-						var _v2 = _v0.a;
-						return true;
-					}
-				} else {
-					var _v3 = _v0.a;
-					var _int = _v3.a;
-					return function (i) {
-						return ((i > 53) && signed) || ((i >= 53) && (!signed));
-					}(
-						$elm$core$Char$toCode(_int));
-				}
-			}
-		}));
-var $elm$core$List$sum = function (numbers) {
-	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
-};
-var $author$project$Main$average = F2(
-	function (list, length) {
-		var size = A2(
-			$elm$core$Basics$min,
-			length,
-			$elm$core$List$length(list));
-		return (!size) ? '0' : A2(
-			$myrho$elm_round$Round$round,
-			1,
-			$elm$core$List$sum(
-				A2($elm$core$List$take, size, list)) / size);
 	});
 var $rundis$elm_bootstrap$Bootstrap$Table$td = F2(
 	function (options, children) {
@@ -17515,6 +17537,15 @@ var $author$project$Main$viewGameSelect = F2(
 var $rundis$elm_bootstrap$Bootstrap$Grid$Col$xs4 = A2($rundis$elm_bootstrap$Bootstrap$Grid$Internal$width, $rundis$elm_bootstrap$Bootstrap$General$Internal$XS, $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col4);
 var $rundis$elm_bootstrap$Bootstrap$Grid$Col$xs6 = A2($rundis$elm_bootstrap$Bootstrap$Grid$Internal$width, $rundis$elm_bootstrap$Bootstrap$General$Internal$XS, $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col6);
 var $author$project$Main$viewHistory = function (model) {
+	var high_ave = function () {
+		var _v0 = A2($elm$core$Dict$get, model.userInfo.nickname, model.eventRecord.playersRecord);
+		if (_v0.$ === 'Nothing') {
+			return _Utils_Tuple2('0', '0');
+		} else {
+			var result = _v0.a;
+			return $author$project$Main$highAndAverage(result);
+		}
+	}();
 	return $rundis$elm_bootstrap$Bootstrap$Card$view(
 		A3(
 			$rundis$elm_bootstrap$Bootstrap$Card$block,
@@ -17614,7 +17645,7 @@ var $author$project$Main$viewHistory = function (model) {
 														$rundis$elm_bootstrap$Bootstrap$Form$Input$number(
 														_List_fromArray(
 															[
-																$rundis$elm_bootstrap$Bootstrap$Form$Input$value('200'),
+																$rundis$elm_bootstrap$Bootstrap$Form$Input$value(high_ave.a),
 																$rundis$elm_bootstrap$Bootstrap$Form$Input$small,
 																$rundis$elm_bootstrap$Bootstrap$Form$Input$plainText(true),
 																$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
@@ -17648,7 +17679,7 @@ var $author$project$Main$viewHistory = function (model) {
 														_List_fromArray(
 															[
 																$rundis$elm_bootstrap$Bootstrap$Form$Input$small,
-																$rundis$elm_bootstrap$Bootstrap$Form$Input$value('180'),
+																$rundis$elm_bootstrap$Bootstrap$Form$Input$value(high_ave.b),
 																$rundis$elm_bootstrap$Bootstrap$Form$Input$plainText(true),
 																$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
 																_List_fromArray(
@@ -17737,16 +17768,6 @@ var $author$project$Main$viewHistory = function (model) {
 			$rundis$elm_bootstrap$Bootstrap$Card$config(_List_Nil)));
 };
 var $author$project$Main$Fscore_size = {$: 'Fscore_size'};
-var $elm$core$List$maximum = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(
-			A3($elm$core$List$foldl, $elm$core$Basics$max, x, xs));
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
 var $elm$core$List$concatMap = F2(
 	function (f, list) {
 		return $elm$core$List$concat(
@@ -18376,22 +18397,6 @@ var $author$project$Main$viewMyPage = function (model) {
 };
 var $author$project$Main$Fpass2 = {$: 'Fpass2'};
 var $author$project$Main$Register = {$: 'Register'};
-var $rundis$elm_bootstrap$Bootstrap$Grid$ColBreak = function (a) {
-	return {$: 'ColBreak', a: a};
-};
-var $rundis$elm_bootstrap$Bootstrap$Grid$colBreak = function (attributes) {
-	return $rundis$elm_bootstrap$Bootstrap$Grid$ColBreak(
-		A2(
-			$elm$html$Html$div,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('w-100')
-					]),
-				attributes),
-			_List_Nil));
-};
-var $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg12 = A2($rundis$elm_bootstrap$Bootstrap$Grid$Internal$width, $rundis$elm_bootstrap$Bootstrap$General$Internal$LG, $rundis$elm_bootstrap$Bootstrap$Grid$Internal$Col12);
 var $author$project$Main$viewRegister = function (model) {
 	var myStyle = A2($elm$html$Html$Attributes$style, 'height', '5px');
 	return A2(
@@ -18468,156 +18473,131 @@ var $author$project$Main$viewRegister = function (model) {
 														])),
 													$rundis$elm_bootstrap$Bootstrap$Card$Block$custom(
 													A2(
-														$rundis$elm_bootstrap$Bootstrap$Grid$container,
+														$rundis$elm_bootstrap$Bootstrap$Grid$containerFluid,
 														_List_Nil,
 														_List_fromArray(
 															[
 																A2(
 																$rundis$elm_bootstrap$Bootstrap$Grid$row,
-																_List_Nil,
+																_List_fromArray(
+																	[$rundis$elm_bootstrap$Bootstrap$Grid$Row$leftLg]),
 																_List_fromArray(
 																	[
 																		A2(
 																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
 																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs12, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg12]),
-																		_List_fromArray(
-																			[
-																				$rundis$elm_bootstrap$Bootstrap$Form$Input$text(
-																				_List_fromArray(
-																					[
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
-																						_List_fromArray(
-																							[
-																								$elm$html$Html$Attributes$placeholder('User ID')
-																							])),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.user_id),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																						$author$project$Main$FormInput($author$project$Main$Fuser_id))
-																					]))
-																			])),
-																		$rundis$elm_bootstrap$Bootstrap$Grid$colBreak(_List_Nil),
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_Nil,
+																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
 																		_List_fromArray(
 																			[
 																				A2(
-																				$elm$html$Html$div,
+																				$rundis$elm_bootstrap$Bootstrap$Form$form,
 																				_List_fromArray(
-																					[myStyle]),
-																				_List_Nil)
-																			]))
-																	])),
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Grid$row,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs12, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg12]),
-																		_List_fromArray(
-																			[
-																				$rundis$elm_bootstrap$Bootstrap$Form$Input$password(
+																					[$rundis$elm_bootstrap$Bootstrap$Utilities$Spacing$mb3]),
 																				_List_fromArray(
 																					[
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																						A2(
+																						$rundis$elm_bootstrap$Bootstrap$Form$label,
+																						_List_Nil,
 																						_List_fromArray(
 																							[
-																								$elm$html$Html$Attributes$placeholder('Password')
+																								$elm$html$Html$text('User ID')
 																							])),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																						$author$project$Main$FormInput($author$project$Main$Fpass))
+																						$rundis$elm_bootstrap$Bootstrap$Form$Input$text(
+																						_List_fromArray(
+																							[
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('your_login_id'),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.user_id),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																								$author$project$Main$FormInput($author$project$Main$Fuser_id))
+																							]))
 																					]))
 																			])),
-																		$rundis$elm_bootstrap$Bootstrap$Grid$colBreak(_List_Nil),
 																		A2(
 																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_Nil,
+																		_List_fromArray(
+																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
 																		_List_fromArray(
 																			[
 																				A2(
-																				$elm$html$Html$div,
+																				$rundis$elm_bootstrap$Bootstrap$Form$form,
 																				_List_fromArray(
-																					[myStyle]),
-																				_List_Nil)
-																			]))
-																	])),
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Grid$row,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs12, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg12]),
-																		_List_fromArray(
-																			[
-																				$rundis$elm_bootstrap$Bootstrap$Form$Input$password(
+																					[$rundis$elm_bootstrap$Bootstrap$Utilities$Spacing$mb3]),
 																				_List_fromArray(
 																					[
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																						A2(
+																						$rundis$elm_bootstrap$Bootstrap$Form$label,
+																						_List_Nil,
 																						_List_fromArray(
 																							[
-																								$elm$html$Html$Attributes$placeholder('Retype password for confirmation')
+																								$elm$html$Html$text('Password')
 																							])),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password2),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																						$author$project$Main$FormInput($author$project$Main$Fpass2))
+																						$rundis$elm_bootstrap$Bootstrap$Form$Input$password(
+																						_List_fromArray(
+																							[
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('your_login_password'),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																								$author$project$Main$FormInput($author$project$Main$Fpass))
+																							]))
 																					]))
 																			])),
-																		$rundis$elm_bootstrap$Bootstrap$Grid$colBreak(_List_Nil),
 																		A2(
 																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_Nil,
+																		_List_fromArray(
+																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg5]),
 																		_List_fromArray(
 																			[
 																				A2(
-																				$elm$html$Html$div,
+																				$rundis$elm_bootstrap$Bootstrap$Form$form,
 																				_List_fromArray(
-																					[myStyle]),
-																				_List_Nil)
-																			]))
-																	])),
-																A2(
-																$rundis$elm_bootstrap$Bootstrap$Grid$row,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		A2(
-																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_fromArray(
-																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs12, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg12]),
-																		_List_fromArray(
-																			[
-																				$rundis$elm_bootstrap$Bootstrap$Form$Input$text(
+																					[$rundis$elm_bootstrap$Bootstrap$Utilities$Spacing$mb3]),
 																				_List_fromArray(
 																					[
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																						A2(
+																						$rundis$elm_bootstrap$Bootstrap$Form$label,
+																						_List_Nil,
 																						_List_fromArray(
 																							[
-																								$elm$html$Html$Attributes$placeholder('ジェイソン')
+																								$elm$html$Html$text('Retype password for confirmation')
 																							])),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.nickname),
-																						$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																						$author$project$Main$FormInput($author$project$Main$Fnickname))
+																						$rundis$elm_bootstrap$Bootstrap$Form$Input$password(
+																						_List_fromArray(
+																							[
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('your_login_password'),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password2),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																								$author$project$Main$FormInput($author$project$Main$Fpass2))
+																							]))
 																					]))
 																			])),
-																		$rundis$elm_bootstrap$Bootstrap$Grid$colBreak(_List_Nil),
 																		A2(
 																		$rundis$elm_bootstrap$Bootstrap$Grid$col,
-																		_List_Nil,
+																		_List_fromArray(
+																			[$rundis$elm_bootstrap$Bootstrap$Grid$Col$xs11, $rundis$elm_bootstrap$Bootstrap$Grid$Col$lg4]),
 																		_List_fromArray(
 																			[
 																				A2(
-																				$elm$html$Html$div,
+																				$rundis$elm_bootstrap$Bootstrap$Form$form,
 																				_List_fromArray(
-																					[myStyle]),
-																				_List_Nil)
+																					[$rundis$elm_bootstrap$Bootstrap$Utilities$Spacing$mb3]),
+																				_List_fromArray(
+																					[
+																						A2(
+																						$rundis$elm_bootstrap$Bootstrap$Form$label,
+																						_List_Nil,
+																						_List_fromArray(
+																							[
+																								$elm$html$Html$text('Nickname (optional)')
+																							])),
+																						$rundis$elm_bootstrap$Bootstrap$Form$Input$text(
+																						_List_fromArray(
+																							[
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('ニックネーム'),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.nickname),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
+																								$author$project$Main$FormInput($author$project$Main$Fnickname))
+																							]))
+																					]))
 																			]))
 																	])),
 																A2(
@@ -18646,7 +18626,14 @@ var $author$project$Main$viewRegister = function (model) {
 																	]))
 															])))
 												]),
-											$rundis$elm_bootstrap$Bootstrap$Card$config(_List_Nil)))))
+											A3(
+												$rundis$elm_bootstrap$Bootstrap$Card$headerH4,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$text('BGC')
+													]),
+												$rundis$elm_bootstrap$Bootstrap$Card$config(_List_Nil))))))
 							]))
 					]))
 			]));
