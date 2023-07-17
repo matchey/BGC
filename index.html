@@ -1,52 +1,63 @@
----
-layout: default
----
+<!DOCTYPE HTML>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Main</title>
+          <!-- <link rel="stylesheet" href="whatever-you-want.css"> -->
+            <script src="main.js"></script>
+  </head>
+  <body>
+      <!-- <script>var app = Elm.Main.init();</script> -->
+      <script>
+        const app = Elm.Main.init({
+          node: document.querySelector('main'),
+          flags: {
+            data: JSON.parse(localStorage.getItem('localStorageTokenKey')),
+          },
+        });
 
-<script src="./common.js"></script>
+        // app.ports.loadData.subscribe(() => {
+        //   app.ports.loadData.send(JSON.parse(localStorage.getItem('localStorageTokenKey')));
+        // });
+        //
+        // app.ports.saveData.subscribe((data) => {
+        //   localStorage.setItem('localStorageTokenKey', JSON.stringify(data));
+        // });
 
-<script>
-function createNewGame()
-{
-  let uuid = '550e8400-e29b-41d4-a716-446655441234';// GASからとる
-  location.href = './supervisor?game_id=' + uuid;
-}
-</script>
+        app.ports.portSetToken.subscribe( (tn) => {
+          if( tn && tn[0] && tn[1] ) {
+            localStorage.setItem("token",tn[0]);
+            localStorage.setItem("user_id",tn[1]);
+          } else { // tn[0]=="" or tn[1]==""
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_id");
+          }
+        } )
 
-<h2>
-  Create a new game as a host
-  <button onclick="createNewGame();">
-    <font>Start a new game</font>
-  </button>
-</h2>
+        app.ports.portGetToken.subscribe( (key) => {
+          // key : not used
+          const token = localStorage.getItem("token");
+          const user_id = localStorage.getItem("user_id");
+          if( token && user_id ) {
+            app.ports.portResToken.send([token,user_id]);
+          } else {
+            app.ports.portResToken.send(["",""]);
+          }
+        })
 
-<script>
-function joinAGame()
-{
-  let input_text = document.getElementById("join_url").value;
-  let param_uuid = "";
+        app.ports.copyToClipboard.subscribe( (id) => {
+          let copyText = document.getElementById(id[0]);
+          let copyButton = document.getElementById(id[1]);
 
-  if(isUUID(input_text))
-  {
-    param_uuid = input_text;
-  }
-  else
-  {
-    param_uuid = getParam("game_id", input_text);
-    if(!isUUID(param_uuid))
-    {
-      console.log('invalid uuid: ' + param_uuid); 
-      return;
-    }
-  }
+          copyText.select();/* Select the text field */
+          copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
-  let players_url = "./players?game_id=" + param_uuid;
-  location.href = players_url;
-}
-</script>
-
-<h5>
-  Join a game that already exists<br>
-  <input type="text" id="join_url" placeholder='Paste "URL" or "UUID"'>
-  <input type="button" value="Join a game" onclick=joinAGame()>
-</h5>
+          /* Copy the text inside the text field */
+          document.execCommand("copy");
+          copyButton.textContent = "Copied!";
+        })
+      </script>
+  </body>
+</html>
 
