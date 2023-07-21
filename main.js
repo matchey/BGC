@@ -9684,7 +9684,7 @@ var $author$project$Main$update = F2(
 									loginStatus: $author$project$Main$LoginFail,
 									statusReason: $author$project$Main$errToString(err)
 								}),
-							$elm$browser$Browser$Navigation$load('https://matchey.github.io/BGC/html'));
+							$elm$browser$Browser$Navigation$load('https://matchey.net/BGC/html'));
 					}
 				case 'CreateGame':
 					return _Utils_Tuple2(
@@ -12194,6 +12194,8 @@ var $author$project$Main$showLoginStatus = function (status) {
 			return 'Confirmation password does not match';
 	}
 };
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$virtual_dom$VirtualDom$node = function (tag) {
 	return _VirtualDom_node(
 		_VirtualDom_noScript(tag));
@@ -12514,7 +12516,9 @@ var $author$project$Main$viewLogin = function (model) {
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
 																								_List_fromArray(
 																									[
-																										$elm$html$Html$Attributes$autocomplete(true)
+																										$elm$html$Html$Attributes$autocomplete(true),
+																										A2($elm$html$Html$Attributes$style, 'autocomplete', 'username'),
+																										$elm$html$Html$Attributes$class('username')
 																									])),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$id('username')
 																							]))
@@ -12549,7 +12553,8 @@ var $author$project$Main$viewLogin = function (model) {
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
 																								_List_fromArray(
 																									[
-																										$elm$html$Html$Attributes$autocomplete(true)
+																										$elm$html$Html$Attributes$autocomplete(true),
+																										A2($elm$html$Html$Attributes$style, 'autocomplete', 'password')
 																									])),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$id('password')
 																							]))
@@ -12958,8 +12963,6 @@ var $rundis$elm_bootstrap$Bootstrap$Form$Input$Size = function (a) {
 	return {$: 'Size', a: a};
 };
 var $rundis$elm_bootstrap$Bootstrap$Form$Input$small = $rundis$elm_bootstrap$Bootstrap$Form$Input$Size($rundis$elm_bootstrap$Bootstrap$General$Internal$SM);
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $rundis$elm_bootstrap$Bootstrap$Grid$Internal$TextAlign = function (a) {
 	return {$: 'TextAlign', a: a};
 };
@@ -17860,14 +17863,16 @@ var $author$project$Main$viewMyScores = function (model) {
 						$elm$core$Maybe$withDefault,
 						50,
 						$elm$core$String$toInt(model.inputRecordParam.scoreSize));
+					var joinedIds = A2(
+						$author$project$Main$joinedGameIdList,
+						model.timeZone,
+						$elm$core$Dict$values(model.joinedIds));
+					var joinedEventGames = (model.gameId === '') ? joinedIds : A2($elm$core$List$drop, 1, joinedIds);
 					return A4(
 						$elm$core$List$map3,
 						$author$project$Main$viewMyScore,
 						A2($elm$core$List$range, 1, score_size),
-						A2(
-							$author$project$Main$joinedGameIdList,
-							model.timeZone,
-							$elm$core$Dict$values(model.joinedIds)),
+						joinedEventGames,
 						A2($elm$core$List$take, score_size, model.scoreRecord));
 				}()),
 			thead: A2(
@@ -18537,7 +18542,13 @@ var $author$project$Main$viewRegister = function (model) {
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('your_login_password'),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																								$author$project$Main$FormInput($author$project$Main$Fpass))
+																								$author$project$Main$FormInput($author$project$Main$Fpass)),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																								_List_fromArray(
+																									[
+																										$elm$html$Html$Attributes$autocomplete(true),
+																										A2($elm$html$Html$Attributes$style, 'autocomplete', 'new-password')
+																									]))
 																							]))
 																					]))
 																			])),
@@ -18566,7 +18577,13 @@ var $author$project$Main$viewRegister = function (model) {
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$placeholder('your_login_password'),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$value(model.inputCred.password2),
 																								$rundis$elm_bootstrap$Bootstrap$Form$Input$onInput(
-																								$author$project$Main$FormInput($author$project$Main$Fpass2))
+																								$author$project$Main$FormInput($author$project$Main$Fpass2)),
+																								$rundis$elm_bootstrap$Bootstrap$Form$Input$attrs(
+																								_List_fromArray(
+																									[
+																										$elm$html$Html$Attributes$autocomplete(true),
+																										A2($elm$html$Html$Attributes$style, 'autocomplete', 'new-password')
+																									]))
 																							]))
 																					]))
 																			])),
