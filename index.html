@@ -78,6 +78,10 @@
         // Registration: call navigator.credentials.create()
         app.ports.portWebAuthnCreate.subscribe(async (options) => {
           try {
+            const excludeCredentials = (options.excludeCredentials || []).map(c => ({
+              type: c.type,
+              id: b64uToBytes(c.id),
+            }));
             const publicKey = {
               challenge: b64uToBytes(options.challenge),
               rp: options.rp,
@@ -87,6 +91,7 @@
                 displayName: options.user.displayName,
               },
               pubKeyCredParams: options.pubKeyCredParams,
+              excludeCredentials: excludeCredentials,
               timeout: options.timeout,
               attestation: options.attestation || 'none',
             };
@@ -100,7 +105,11 @@
             };
             app.ports.portWebAuthnCreateResult.send(result);
           } catch (e) {
-            app.ports.portWebAuthnError.send('Passkey registration failed: ' + e.message);
+            if (e.name === 'InvalidStateError') {
+              app.ports.portWebAuthnError.send('This device already has a passkey registered.');
+            } else {
+              app.ports.portWebAuthnError.send('Passkey registration failed: ' + e.message);
+            }
           }
         });
 
