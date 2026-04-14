@@ -92,6 +92,7 @@
               },
               pubKeyCredParams: options.pubKeyCredParams,
               excludeCredentials: excludeCredentials,
+              authenticatorSelection: options.authenticatorSelection || {},
               timeout: options.timeout,
               attestation: options.attestation || 'none',
             };
@@ -137,6 +138,7 @@
                 userHandle: assertion.response.userHandle
                   ? bytesToB64u(assertion.response.userHandle) : null,
               },
+              sessionKey: options.sessionKey || null,
             };
             app.ports.portWebAuthnGetResult.send(result);
           } catch (e) {
