@@ -15,6 +15,7 @@
           node: document.querySelector('main'),
           flags: {
             data: JSON.parse(localStorage.getItem('localStorageTokenKey')),
+            lang: navigator.language || 'en',
           },
         });
 
