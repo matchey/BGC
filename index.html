@@ -60,6 +60,25 @@
           copyButton.textContent = "Copied!";
         })
 
+        // --- Payment Calculator localStorage ---
+
+        app.ports.portSavePaymentCalc.subscribe((data) => {
+          const eventId = data.cachedEventId || 'default';
+          localStorage.setItem('paymentCalc_' + eventId, JSON.stringify(data));
+        });
+
+        app.ports.portLoadPaymentCalc.subscribe((eventId) => {
+          const key = 'paymentCalc_' + (eventId || 'default');
+          const stored = localStorage.getItem(key);
+          if (stored) {
+            try {
+              app.ports.portLoadPaymentCalcResult.send(JSON.parse(stored));
+            } catch (e) {
+              // Ignore malformed data
+            }
+          }
+        });
+
         // --- WebAuthn / Passkey ---
 
         function b64uToBytes(b64u) {
