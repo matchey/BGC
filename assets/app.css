@@ -1291,3 +1291,33 @@ html body .sync-spinning .bi {
 html body .sync-spinning {
   cursor: progress;
 }
+
+/* ---------- v18: panel-card (gradient border, matches .card hover) ---------- */
+html body .panel.panel-card {
+  background:
+    linear-gradient(var(--bg-1), var(--bg-1)) padding-box,
+    linear-gradient(135deg,
+      rgba(34, 211, 238, 0.55) 0%,
+      rgba(167, 139, 250, 0.45) 50%,
+      rgba(34, 211, 238, 0.20) 100%) border-box;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- v18: glass-tile (GameFlow draggable player chip) ---------- */
+html body .glass-tile {
+  background: rgba(34, 211, 238, 0.10);
+  text-align: center;
+  box-shadow:
+    inset 0 -2em 2em rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    0.2em 0.2em 0.7em rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  user-select: none;
+  cursor: move;
+  border-radius: var(--radius);
+  color: var(--fg-0);
+}
