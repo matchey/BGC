@@ -1,0 +1,1293 @@
+/*
+ * BGC — App Stylesheet
+ * Modern minimal × dark, layered on top of Bootstrap 4 (elm-bootstrap CDN).
+ * Strategy: define design tokens, then override Bootstrap classes via higher specificity
+ * (`html body .card { ... }` patterns) without touching Elm view code.
+ */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg-0: #0b0d10;
+  --bg-1: #12161c;
+  --bg-2: #1a1f27;
+  --bg-3: #232a34;
+  --bg-glass: rgba(15, 19, 26, 0.45);
+
+  /* Text */
+  --fg-0: #e7ecf3;
+  --fg-1: #a9b3c0;
+  --fg-2: #6b7785;
+
+  /* Lines (rgba so they automatically fit any surface tone) */
+  --hairline: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.10);
+
+  /* Accents & semantic */
+  --accent: #22d3ee;
+  --accent-2: #0ea5b7;
+  --accent-fg: #04141a;
+  --danger: #f87171;
+  --warn: #fbbf24;
+  --ok: #4ade80;
+  --info: #60a5fa;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadows (dark-tuned) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --dur-slow: 280ms;
+
+  /* Spacing scale (8px grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Typography scale (modular ~1.25) */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 17px;
+  --fs-lg: 20px;
+  --fs-xl: 24px;
+  --fs-2xl: 30px;
+  --fs-3xl: 38px;
+
+  /* Layout */
+  --container-max: 1120px;
+  --container-pad: 16px;
+  --navbar-h: 56px;
+
+  /* Stacks */
+  --font-sans: "Inter", "Noto Sans JP", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+}
+
+/* ---------- Base / Reset ---------- */
+/* Use html body to outrank Bootstrap CDN's body{background:#fff} which loads after this file. */
+html {
+  background: var(--bg-0);
+  min-height: 100%;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+html body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--fg-0);
+  background-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* The Elm app may host inside <pre id="elm"> or directly under body — keep the surface dark either way */
+pre#elm,
+main,
+#elm,
+html body > div {
+  background: transparent;
+  color: inherit;
+}
+pre#elm {
+  white-space: normal;
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.35);
+  color: var(--fg-0);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+a:hover {
+  color: var(--fg-0);
+}
+
+/* ---------- Section dividers (alternative to cards for grouping) ---------- */
+.section + .section,
+.divider {
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--space-5);
+  margin-top: var(--space-5);
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: var(--space-5) 0;
+}
+
+/* Headings: tighter tracking on larger sizes */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  color: var(--fg-0);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-top: 0;
+}
+h1, .h1 { font-size: var(--fs-3xl); letter-spacing: -0.02em; }
+h2, .h2 { font-size: var(--fs-2xl); letter-spacing: -0.015em; }
+h3, .h3 { font-size: var(--fs-xl); }
+h4, .h4 { font-size: var(--fs-lg); }
+h5, .h5 { font-size: var(--fs-md); }
+h6, .h6 { font-size: var(--fs-base); }
+
+small,
+.small {
+  font-size: var(--fs-sm);
+  color: var(--fg-1);
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+}
+
+/* ---------- Container / Layout ---------- */
+html body .container,
+html body .container-fluid {
+  max-width: min(100% - calc(var(--container-pad) * 2), var(--container-max));
+  padding-left: var(--container-pad);
+  padding-right: var(--container-pad);
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+}
+
+/* Page enter animation */
+.page-enter,
+.container > .row,
+.container > .card {
+  animation: fadeUp var(--dur-slow) var(--ease) both;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Bootstrap row gutter normalization */
+html body .row {
+  --bs-gutter-x: var(--space-4);
+}
+
+/* ---------- Utilities ---------- */
+.numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  text-align: right;
+  white-space: nowrap;
+}
+/* Auto-apply tabular numerals to right-aligned table cells (PaymentCalc, GameResults) */
+html body .table td[style*="text-align: right"],
+html body .table td[style*="text-align:right"],
+html body .table th[style*="text-align: right"],
+html body .table th[style*="text-align:right"],
+html body .table td.text-right,
+html body .table th.text-right {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  white-space: nowrap;
+}
+.unit {
+  font-size: 0.85em;
+  color: var(--fg-2);
+  margin-left: 0.15em;
+  font-weight: 400;
+}
+.muted {
+  color: var(--fg-2);
+}
+.page-title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-4);
+}
+.section {
+  margin-block: var(--space-6);
+}
+.section-tight {
+  margin-block: var(--space-4);
+}
+.divider {
+  border-top: 1px solid var(--hairline);
+  margin-block: var(--space-5);
+}
+.btn-row {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- Cards (borderless soft) ---------- */
+html body .card {
+  background: var(--bg-0);
+  color: var(--fg-0);
+  border: 1px solid transparent; /* keep layout, hide line */
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+  transition:
+    background var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+html body .card:hover {
+  background:
+    linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+    linear-gradient(135deg,
+      rgba(34, 211, 238, 0.75) 0%,
+      rgba(167, 139, 250, 0.65) 50%,
+      rgba(34, 211, 238, 0.30) 100%) border-box;
+  box-shadow: none;
+}
+html body .card-header,
+html body .card-footer {
+  background: transparent;
+  border-color: var(--hairline);
+  padding: var(--space-4) var(--space-5);
+  font-weight: 600;
+  color: var(--fg-0);
+}
+html body .card-header:first-child {
+  border-top-left-radius: calc(var(--radius-lg) - 1px);
+  border-top-right-radius: calc(var(--radius-lg) - 1px);
+}
+html body .card-footer:last-child {
+  border-bottom-left-radius: calc(var(--radius-lg) - 1px);
+  border-bottom-right-radius: calc(var(--radius-lg) - 1px);
+}
+html body .card-body {
+  padding: var(--space-5);
+}
+html body .card-title {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+  color: var(--fg-0);
+}
+html body .card-subtitle,
+html body .card-text + .card-text {
+  color: var(--fg-1);
+}
+/* Stack sibling cards with breathing room (rhythm) */
+html body .card + .card {
+  margin-top: var(--space-5);
+}
+/* Baseline bottom margin so cards don't touch surrounding content */
+html body .card {
+  margin-bottom: var(--space-5);
+}
+html body .card:last-child {
+  margin-bottom: 0;
+}
+/* Vertical gap when grid columns stack on small viewports */
+@media (max-width: 991.98px) {
+  html body .row > [class*="col-"]:not(:last-child) {
+    margin-bottom: var(--space-4);
+  }
+}
+/* Page sections (rows) breathe vertically too */
+html body .container > .row + .row,
+html body .container-fluid > .row + .row {
+  margin-top: var(--space-5);
+}
+
+/* ---------- Buttons ---------- */
+html body .btn {
+  --btn-h: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: var(--btn-h);
+  padding: 0 var(--space-4);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg-0);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: background var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
+  white-space: nowrap;
+  user-select: none;
+}
+html body .btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.10) inset,
+    0 4px 10px rgba(0, 0, 0, 0.45);
+}
+html body .btn:focus,
+html body .btn.focus {
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.10) inset;
+  outline: none;
+}
+html body .btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5) inset;
+}
+html body .btn:disabled,
+html body .btn.disabled {
+  box-shadow: none;
+  transform: none;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+html body .btn-sm {
+  --btn-h: 32px;
+  font-size: var(--fs-sm);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+}
+html body .btn-lg {
+  --btn-h: 44px;
+  font-size: var(--fs-md);
+  padding: 0 var(--space-5);
+}
+html body .btn i,
+html body .btn .bi {
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+/* Primary → accent */
+html body .btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: transparent;
+}
+html body .btn-primary:hover,
+html body .btn-primary:focus {
+  background: var(--accent-2);
+  color: var(--accent-fg);
+}
+html body .btn-primary:disabled,
+html body .btn-primary.disabled {
+  background: var(--accent-2);
+  opacity: 0.5;
+  color: var(--accent-fg);
+}
+
+/* Secondary → muted filled */
+html body .btn-secondary {
+  background: var(--bg-3);
+  color: var(--fg-0);
+  border-color: var(--border-strong);
+}
+html body .btn-secondary:hover {
+  background: #2a323e;
+  border-color: var(--border-strong);
+  color: var(--fg-0);
+}
+
+/* Outlines → ghost-ish on dark, but with subtle baseline fill so they read as buttons */
+html body .btn-outline-primary {
+  color: var(--accent);
+  border-color: rgba(34, 211, 238, 0.55);
+  background: rgba(34, 211, 238, 0.04);
+}
+html body .btn-outline-primary:hover {
+  background: rgba(34, 211, 238, 0.14);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+html body .btn-outline-secondary,
+html body .btn-outline-light,
+html body .btn-outline-dark {
+  color: var(--fg-0);
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.03);
+}
+html body .btn-outline-secondary:hover,
+html body .btn-outline-light:hover,
+html body .btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--fg-0);
+  border-color: rgba(255, 255, 255, 0.36);
+}
+html body .btn-outline-info {
+  color: var(--info);
+  border-color: rgba(96, 165, 250, 0.55);
+  background: rgba(96, 165, 250, 0.05);
+}
+html body .btn-outline-info:hover {
+  background: rgba(96, 165, 250, 0.14);
+  color: var(--info);
+  border-color: var(--info);
+}
+html body .btn-outline-danger {
+  color: var(--danger);
+  border-color: rgba(248, 113, 113, 0.55);
+  background: rgba(248, 113, 113, 0.05);
+}
+html body .btn-outline-danger:hover {
+  background: rgba(248, 113, 113, 0.14);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+html body .btn-outline-warning {
+  color: var(--warn);
+  border-color: rgba(251, 191, 36, 0.55);
+  background: rgba(251, 191, 36, 0.05);
+}
+html body .btn-outline-warning:hover {
+  background: rgba(251, 191, 36, 0.14);
+  color: var(--warn);
+  border-color: var(--warn);
+}
+html body .btn-outline-success {
+  color: var(--ok);
+  border-color: rgba(74, 222, 128, 0.55);
+  background: rgba(74, 222, 128, 0.05);
+}
+html body .btn-outline-success:hover {
+  background: rgba(74, 222, 128, 0.14);
+  color: var(--ok);
+  border-color: var(--ok);
+}
+
+html body .btn-danger {
+  background: var(--danger);
+  color: #1b0707;
+  border-color: transparent;
+}
+html body .btn-danger:hover {
+  background: #ef5e5e;
+  color: #1b0707;
+}
+html body .btn-success {
+  background: var(--ok);
+  color: #062b13;
+  border-color: transparent;
+}
+html body .btn-warning {
+  background: var(--warn);
+  color: #2b1d04;
+  border-color: transparent;
+}
+html body .btn-info {
+  background: var(--info);
+  color: #08172b;
+  border-color: transparent;
+}
+
+html body .btn-link {
+  color: var(--accent);
+  background: transparent;
+  border: 0;
+  padding: 0 var(--space-2);
+  height: auto;
+}
+html body .btn-link:hover {
+  color: var(--fg-0);
+  text-decoration: none;
+}
+
+/* ---------- Forms ---------- */
+html body .form-control,
+html body .custom-select,
+html body select.form-control {
+  height: 38px;
+  background: var(--bg-1);
+  color: var(--fg-0);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 0 var(--space-3);
+  font-size: var(--fs-base);
+  transition: border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+html body textarea.form-control {
+  height: auto;
+  padding: var(--space-3);
+  line-height: 1.55;
+}
+html body .form-control::placeholder {
+  color: var(--fg-2);
+}
+html body .form-control:focus,
+html body .custom-select:focus {
+  background: var(--bg-1);
+  color: var(--fg-0);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.25);
+  outline: none;
+}
+html body .form-control:disabled,
+html body .form-control[readonly] {
+  background: var(--bg-1);
+  color: var(--fg-1);
+  opacity: 0.8;
+}
+html body .form-control.is-invalid {
+  border-color: var(--danger);
+}
+html body .form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.25);
+}
+html body .invalid-feedback,
+html body .text-danger {
+  color: var(--danger) !important;
+  font-size: var(--fs-sm);
+  margin-top: var(--space-1);
+}
+
+html body label,
+html body .col-form-label {
+  color: var(--fg-1);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.01em;
+}
+
+/* Custom select chevron in light by default — recolor (operative element: bright) */
+html body .custom-select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--fg-0) 50%),
+    linear-gradient(135deg, var(--fg-0) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 32px;
+  appearance: none;
+}
+
+/* Checkboxes / radios */
+html body .custom-control-label::before {
+  background: var(--bg-2);
+  border-color: var(--border-strong);
+}
+html body .custom-control-input:checked ~ .custom-control-label::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+html body .custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.25);
+}
+
+/* Input groups */
+html body .input-group-text {
+  background: var(--bg-3);
+  border-color: var(--hairline);
+  color: var(--fg-1);
+  border-radius: var(--radius);
+}
+
+/* ---------- Tables ---------- */
+html body .table {
+  color: var(--fg-0);
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+html body .table th,
+html body .table td {
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  padding: 10px var(--space-3);
+  vertical-align: middle;
+  font-size: var(--fs-base);
+}
+html body .table thead th {
+  border-top: 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-2);
+  font-weight: 600;
+  padding: 12px var(--space-3);
+  background: var(--bg-1);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+/* When a table sits inside a card, header bg should match card */
+html body .card .table thead th {
+  background: var(--bg-1);
+}
+html body .table tbody tr {
+  transition: background var(--dur-fast) var(--ease);
+}
+html body .table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+html body .table tfoot td,
+html body .table tr.total td,
+html body .table tr.summary td {
+  font-weight: 600;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(34, 211, 238, 0.04);
+}
+html body .table-bordered,
+html body .table-bordered th,
+html body .table-bordered td {
+  border-color: var(--hairline);
+}
+html body .table-striped tbody tr:nth-of-type(odd) {
+  background: transparent; /* disable zebra; rely on hover */
+}
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+}
+
+/* ---------- Navbar (glass) ---------- */
+html body .navbar {
+  background: var(--bg-glass) !important;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg,
+    transparent 0%,
+    rgba(34, 211, 238, 0.55) 30%,
+    rgba(167, 139, 250, 0.55) 70%,
+    transparent 100%) 1;
+  min-height: var(--navbar-h);
+  padding: 0 var(--space-4);
+}
+/* Defeat elm-bootstrap's auto-injected `bg-light` class which (with !important
+ * and identical specificity) was clobbering the glass background to opaque. */
+html body .navbar.bg-light,
+html body .navbar.bg-dark {
+  background-color: var(--bg-glass) !important;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html body .navbar {
+    background: var(--bg-1) !important;
+  }
+}
+html body .navbar .navbar-brand {
+  color: var(--fg-0) !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: var(--fs-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+html body .navbar .navbar-brand .brand-mark {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+html body .navbar .nav-item {
+  margin: 0 2px;
+}
+html body .navbar .nav-link {
+  color: var(--fg-0) !important;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  padding: 10px var(--space-3) !important;
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
+  opacity: 0.78;
+}
+html body .navbar .nav-link:hover {
+  color: var(--fg-0) !important;
+  background: rgba(255, 255, 255, 0.04);
+  opacity: 1;
+}
+html body .navbar .nav-link.active,
+html body .navbar .nav-item.active > .nav-link {
+  color: var(--fg-0) !important;
+  background: transparent;
+  opacity: 1;
+}
+html body .navbar .nav-link.active::after,
+html body .navbar .nav-item.active > .nav-link::after {
+  content: "";
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: 4px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* Disabled (current page) link — show as accent label, not faded */
+html body .navbar .nav-item .nav-link.disabled,
+html body .navbar .nav-item > a.nav-link[disabled] {
+  color: var(--accent) !important;
+  opacity: 1;
+  cursor: default;
+}
+
+/* Right-side utility links: language toggle, admin */
+html body .navbar .navbar-nav .nav-item:has(.lang-toggle),
+html body .navbar .navbar-nav .nav-item.utility {
+  margin-left: auto;
+}
+
+/* Lang pill */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px !important;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill) !important;
+  font-size: var(--fs-xs) !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.lang-toggle:hover {
+  background: rgba(34, 211, 238, 0.08) !important;
+  border-color: var(--accent);
+  color: var(--accent) !important;
+}
+
+/* Toggler (hamburger) — operative element, must be clearly visible
+ * NOTE: Bootstrap 4 emits `.navbar-light .navbar-toggler-icon` (specificity 0,2,0).
+ * We need at least 0,2,x to win, hence `.navbar` in the selector. */
+html body .navbar-toggler {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--fg-0);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  min-width: 44px;
+  min-height: 40px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 150ms var(--ease);
+}
+html body .navbar-toggler:hover {
+  border-color: var(--accent);
+  background: rgba(34, 211, 238, 0.08);
+}
+html body .navbar-toggler:focus,
+html body .navbar-toggler:focus-visible {
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.45);
+  outline: none;
+}
+html body .navbar .navbar-toggler-icon,
+html body .navbar-light .navbar-toggler-icon,
+html body .navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23e7ecf3' stroke-width='3' stroke-linecap='round' d='M4 8h22M4 15h22M4 22h22'/%3E%3C/svg%3E");
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* ---------- Alerts ---------- */
+html body .alert {
+  background: var(--bg-2);
+  color: var(--fg-0);
+  border: 1px solid var(--hairline);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+}
+html body .alert-primary { border-left-color: var(--accent); }
+html body .alert-success { border-left-color: var(--ok); }
+html body .alert-info    { border-left-color: var(--info); }
+html body .alert-warning { border-left-color: var(--warn); }
+html body .alert-danger  { border-left-color: var(--danger); color: var(--fg-0); }
+html body .alert .close { color: var(--fg-0); text-shadow: none; opacity: 0.85; font-size: 1.25rem; }
+html body .alert .close:hover { color: var(--fg-0); opacity: 1; }
+
+/* ---------- Modal ---------- */
+html body .modal {
+  overflow-y: auto;
+}
+html body .modal-dialog {
+  margin: 4.5rem auto 1rem;
+  max-height: calc(100vh - 5.5rem);
+  display: flex;
+  align-items: flex-start;
+}
+html body .modal-content {
+  background: var(--bg-1);
+  color: var(--fg-0);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-height: 100%;
+  overflow-y: auto;
+  width: 100%;
+}
+html body .modal-header,
+html body .modal-footer {
+  border-color: var(--hairline);
+}
+html body .modal-header .close {
+  color: var(--fg-0);
+  text-shadow: none;
+  opacity: 0.85;
+  font-size: 1.5rem;
+}
+html body .modal-header .close:hover { color: var(--fg-0); opacity: 1; }
+html body .modal-backdrop.show { opacity: 0.4; background: #000; }
+
+/* ---------- List groups, dropdowns ---------- */
+html body .list-group-item {
+  background: var(--bg-1);
+  color: var(--fg-0);
+  border-color: var(--hairline);
+}
+html body .list-group-item.active {
+  background: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.4);
+  color: var(--fg-0);
+}
+html body .list-group-item-action:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg-0);
+}
+
+html body .dropdown-menu {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-1);
+}
+html body .dropdown-item {
+  color: var(--fg-0);
+  border-radius: var(--radius-sm);
+  padding: 8px var(--space-3);
+}
+html body .dropdown-item:hover,
+html body .dropdown-item:focus {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg-0);
+}
+html body .dropdown-divider {
+  border-top: 1px solid var(--hairline);
+}
+
+/* ---------- Badges ---------- */
+html body .badge {
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+}
+html body .badge-primary { background: rgba(34, 211, 238, 0.15); color: var(--accent); }
+html body .badge-secondary { background: var(--bg-3); color: var(--fg-1); }
+html body .badge-success { background: rgba(74, 222, 128, 0.15); color: var(--ok); }
+html body .badge-danger  { background: rgba(248, 113, 113, 0.15); color: var(--danger); }
+html body .badge-warning { background: rgba(251, 191, 36, 0.15); color: var(--warn); }
+html body .badge-info    { background: rgba(96, 165, 250, 0.15); color: var(--info); }
+
+/* ---------- Focus ring ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.45);
+}
+
+/* ---------- Scrollbar (WebKit) ---------- */
+* {
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #4a525e;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- Loading dots/spinner color (perzanko/elm-loading) ---------- */
+.sk-circle-loader,
+.sk-spinner-pulse,
+.spinner-border,
+.sk-bounce-dots > div,
+[class*="sk-"] {
+  color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  background-color: currentColor;
+}
+
+/* ---------- Read-friendly width for HowToUse ---------- */
+.prose,
+.howto {
+  max-width: 72ch;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- v3: Panel utilities (replaces inline white card backgrounds) ---------- */
+html body .panel {
+  background: var(--bg-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+}
+html body .panel.panel-flush { padding: 0; overflow: hidden; }
+html body .panel-header {
+  background: rgba(255, 255, 255, 0.025);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--hairline);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+html body .panel-header h1,
+html body .panel-header h2,
+html body .panel-header h3,
+html body .panel-header h4,
+html body .panel-header h5,
+html body .panel-header h6 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--fg-0);
+}
+html body .panel-body { padding: var(--space-3) var(--space-4); }
+html body .panel-footer {
+  border-top: 1px solid var(--hairline);
+  padding: var(--space-3) var(--space-4);
+}
+html body .row-highlight,
+html body tr.row-highlight,
+html body tr.row-highlight > td {
+  background: rgba(34, 211, 238, 0.07);
+}
+html body .text-soft,
+html body .muted { color: var(--fg-1); }
+html body .text-very-soft { color: var(--fg-2); }
+html body .settlement-row {
+  border-bottom: 1px solid var(--hairline);
+}
+html body .settlement-row:last-child { border-bottom: 0; }
+html body .pill-end {
+  border-top-right-radius: var(--radius-pill) !important;
+  border-bottom-right-radius: var(--radius-pill) !important;
+}
+html body .btn-link.dotted {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  color: var(--fg-1);
+}
+html body .btn-link.dotted:hover { color: var(--fg-0); }
+
+/* ---------- v3: Bootstrap white/light utility overrides for dark theme ---------- */
+html body .bg-light { background-color: var(--bg-2) !important; color: var(--fg-0); }
+html body .bg-white { background-color: var(--bg-1) !important; color: var(--fg-0); }
+html body .bg-dark  { background-color: var(--bg-0) !important; color: var(--fg-0); }
+html body .text-white { color: var(--fg-0) !important; }
+html body .text-dark  { color: var(--fg-0) !important; }
+html body .text-muted { color: var(--fg-2) !important; }
+html body .text-secondary { color: var(--fg-1) !important; }
+html body .text-success { color: var(--ok) !important; }
+html body .text-danger  { color: var(--danger) !important; }
+html body .text-warning { color: var(--warn) !important; }
+html body .text-info    { color: var(--accent) !important; }
+
+/* Card headers using bg-light should use the panel-header tone */
+html body .card-header.bg-light {
+  background: rgba(255, 255, 255, 0.025) !important;
+  border-bottom-color: var(--hairline);
+  color: var(--fg-0);
+}
+
+/* Bootstrap "info" buttons → accent (used in PaymentCalc PerPerson/Total toggle) */
+html body .btn-info {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #06222a;
+}
+html body .btn-info:hover {
+  background-color: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #06222a;
+}
+html body .btn-info.text-white,
+html body .btn-info.text-white:hover { color: #06222a !important; }
+html body .btn-outline-info {
+  color: var(--accent);
+  border-color: rgba(34, 211, 238, 0.45);
+  background: transparent;
+}
+html body .btn-outline-info:hover {
+  background: rgba(34, 211, 238, 0.10);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Inline white borders that may slip through (defensive belt) */
+html body [style*="border: 1px solid #FFF"],
+html body [style*="border:1px solid #FFF"],
+html body [style*="border: 1px solid #fff"],
+html body [style*="border:1px solid #fff"],
+html body [style*="border-top: 1px solid #FFF"],
+html body [style*="border-top:1px solid #FFF"] {
+  border-color: var(--hairline) !important;
+}
+html body [style*="background-color: #FFF"],
+html body [style*="background-color:#FFF"],
+html body [style*="background-color: #fff"],
+html body [style*="background-color:#fff"] {
+  background-color: var(--bg-2) !important;
+}
+
+
+@media (max-width: 768px) {
+  :root {
+    --fs-base: 14px;
+    --container-pad: 12px;
+  }
+  html body .navbar { padding: 0 var(--space-3); }
+  html body .navbar .nav-link { padding: 12px var(--space-3) !important; }
+  html body .card-body { padding: var(--space-4); }
+}
+
+/* ---------- v4: Bootstrap Icons baseline & spacing ---------- */
+.bi {
+  display: inline-block;
+  vertical-align: -0.125em;
+  line-height: 1;
+}
+.bi.bi-lg { font-size: 1.25em; }
+.bi-spaced-r { margin-right: 0.45em; }
+.bi-spaced-l { margin-left: 0.45em; }
+.btn .bi { vertical-align: -0.15em; }
+
+/* HowToUse: emoji icons rendered as span keep parity with .bi sizing */
+.section-emoji {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1;
+  vertical-align: -0.05em;
+}
+
+
+/* ============================================================
+ * v5 — Login/Begin glass + atmosphere + tab/table refinements
+ * ============================================================ */
+
+/* Atmosphere: subtle mesh-gradient background (decorative depth, not blur source) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(28vmax 28vmax at 18% 45%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(30vmax 30vmax at 82% 55%, rgba(167, 139, 250, 0.14), transparent 60%),
+    radial-gradient(26vmax 26vmax at 50% 78%, rgba(34, 211, 238, 0.10), transparent 65%),
+    radial-gradient(24vmax 24vmax at 8% 88%, rgba(96, 165, 250, 0.10), transparent 60%);
+  filter: saturate(110%);
+}
+
+/* Body horizontal-overflow safety net (clip preserves position:sticky) */
+html body {
+  overflow-x: clip;
+}
+
+/* Override Bootstrap white border-light/dark frames everywhere */
+html body .border-light,
+html body .card.border-light,
+html body .border-dark,
+html body .card.border-dark {
+  border-color: var(--border) !important;
+}
+
+/* ---------- Gradient-border card (applies to ALL cards) ----------
+ * Solid dark fill + visible cyan→violet gradient frame using the dual-bg + border-box trick.
+ * Applied globally so my page / admin / game-results cards all get the same treatment.
+ * Cards with explicit `Card.outlineX` (border-info etc.) override border-color naturally.
+ */
+html body .card {
+  position: relative;
+  background:
+    linear-gradient(var(--bg-0), var(--bg-0)) padding-box,
+    linear-gradient(135deg,
+      rgba(34, 211, 238, 0.55) 0%,
+      rgba(167, 139, 250, 0.45) 50%,
+      rgba(34, 211, 238, 0.20) 100%) border-box;
+  border: 1px solid transparent;
+  box-shadow: none;
+  border-radius: var(--radius-lg);
+}
+html body .card .card-header,
+html body .card .card-header-h6 {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--hairline);
+  color: var(--fg-0);
+}
+html body .card .card-body {
+  background: transparent;
+}
+
+/* ---------- form-control-plaintext: ensure visibility on dark ---------- */
+html body .form-control-plaintext {
+  color: var(--fg-0);
+  font-weight: 600;
+}
+
+/* ---------- Chrome autofill: dark surface ---------- */
+html body input:-webkit-autofill,
+html body input:-webkit-autofill:hover,
+html body input:-webkit-autofill:focus,
+html body input:-webkit-autofill:active,
+html body textarea:-webkit-autofill,
+html body select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-2) inset !important;
+  -webkit-text-fill-color: var(--fg-0) !important;
+  caret-color: var(--fg-0);
+  border-color: var(--border-strong) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ---------- nav-tabs: dark + accent underline ---------- */
+html body .nav-tabs {
+  border-bottom: 1px solid var(--hairline);
+}
+html body .nav-tabs .nav-link {
+  color: var(--fg-1);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  padding: 10px var(--space-4);
+  margin-bottom: -1px;
+  font-weight: 500;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+html body .nav-tabs .nav-link:hover,
+html body .nav-tabs .nav-link:focus-visible {
+  color: var(--fg-0);
+  border-color: transparent transparent rgba(255, 255, 255, 0.10);
+  background: transparent;
+}
+html body .nav-tabs .nav-link.active,
+html body .nav-tabs .nav-item.show .nav-link {
+  color: var(--accent);
+  background: transparent;
+  border-color: transparent transparent var(--accent);
+  border-bottom-width: 2px;
+  font-weight: 600;
+}
+html body .nav-tabs .nav-link.disabled {
+  color: var(--fg-2);
+  background: transparent;
+  border-color: transparent;
+}
+html body .nav-pills .nav-link.active,
+html body .nav-pills .show > .nav-link {
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--accent);
+}
+
+/* ---------- Bootstrap .table-responsive ---------- */
+html body .table-responsive {
+  margin-bottom: var(--space-4);
+  scrollbar-color: var(--border-strong) transparent;
+}
+html body .table-responsive > .table {
+  margin-bottom: 0;
+}
+
+
+/* ---------- v6: PaymentCalc grid overflow guard (REVERTED 2-row stack per UX) ---------- */
+/* Keep min-width:0 baseline so flex/grid children can shrink — no harmful effect */
+html body .payment-row > * {
+  min-width: 0;
+}
+
+
+/* ---------- v7: .btn responsive wrap on narrow screens ---------- */
+@media (max-width: 576px) {
+  html body .btn {
+    height: auto;
+    min-height: var(--btn-h);
+    white-space: normal;
+    line-height: 1.25;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    word-break: break-word;
+  }
+}
+
+/* ---------- Sync button spinner ---------- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+html body .sync-spinning .bi {
+  display: inline-block;
+  animation: spin 0.9s linear infinite;
+}
+html body .sync-spinning {
+  cursor: progress;
+}
