@@ -544,6 +544,17 @@ html body select.form-control {
   transition: border-color var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
 }
+html body .form-control-sm,
+html body .custom-select-sm,
+html body select.form-control-sm {
+  height: 30px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+}
+html body .custom-select-sm {
+  padding-right: 26px;
+  background-position: calc(100% - 12px) 50%, calc(100% - 8px) 50%;
+}
 html body textarea.form-control {
   height: auto;
   padding: var(--space-3);
@@ -1032,6 +1043,20 @@ html body .settlement-row:last-child { border-bottom: 0; }
 html body .pill-end {
   border-top-right-radius: var(--radius-pill) !important;
   border-bottom-right-radius: var(--radius-pill) !important;
+}
+html body .btn.btn-flush:hover,
+html body .btn.btn-flush:focus,
+html body .btn.btn-flush:active {
+  transform: none;
+}
+html body .btn.btn-flush {
+  box-sizing: border-box !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0 !important;
 }
 html body .btn-link.dotted {
   text-decoration: underline dotted;

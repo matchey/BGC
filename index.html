@@ -20,6 +20,7 @@
 
       <script src="main.js"></script>
       <script src="DragDropTouch.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js"></script>
   </head>
   <body>
       <!-- <script>var app = Elm.Main.init();</script> -->
@@ -88,6 +89,122 @@
               app.ports.portLoadPaymentCalcResult.send(JSON.parse(stored));
             } catch (e) {
               // Ignore malformed data
+            }
+          }
+        });
+
+        // --- Payment Summary: copy as image to clipboard ---
+
+        // Capture the node as-is, then composite it onto a canvas with
+        // page background + subtle accent gradient + outer padding.
+        // Done in canvas (not via DOM wrapper) so the live panel never moves
+        // and its layout is never disturbed during capture.
+        async function renderSummaryFramed(node) {
+          const PAD = 20;
+          const RADIUS = 16;
+          const pageBg =
+            getComputedStyle(document.documentElement).backgroundColor ||
+            getComputedStyle(document.body).backgroundColor ||
+            '#0b0d10';
+
+          const dataUrl = await htmlToImage.toPng(node, {
+            pixelRatio: 2,
+            cacheBust: true,
+          });
+          const img = await new Promise((resolve, reject) => {
+            const i = new Image();
+            i.onload = () => resolve(i);
+            i.onerror = reject;
+            i.src = dataUrl;
+          });
+
+          const dpr = 2; // matches pixelRatio above
+          const innerW = img.naturalWidth;
+          const innerH = img.naturalHeight;
+          const padPx = PAD * dpr;
+          const radiusPx = RADIUS * dpr;
+          const canvas = document.createElement('canvas');
+          canvas.width = innerW + padPx * 2;
+          canvas.height = innerH + padPx * 2;
+          const ctx = canvas.getContext('2d');
+
+          // Rounded background frame.
+          const w = canvas.width;
+          const h = canvas.height;
+          ctx.beginPath();
+          if (ctx.roundRect) {
+            ctx.roundRect(0, 0, w, h, radiusPx);
+          } else {
+            const r = radiusPx;
+            ctx.moveTo(r, 0);
+            ctx.lineTo(w - r, 0);
+            ctx.quadraticCurveTo(w, 0, w, r);
+            ctx.lineTo(w, h - r);
+            ctx.quadraticCurveTo(w, h, w - r, h);
+            ctx.lineTo(r, h);
+            ctx.quadraticCurveTo(0, h, 0, h - r);
+            ctx.lineTo(0, r);
+            ctx.quadraticCurveTo(0, 0, r, 0);
+            ctx.closePath();
+          }
+          ctx.fillStyle = pageBg;
+          ctx.fill();
+
+          // Glass-feel accent gradients (top-left cyan, bottom-right violet).
+          const g1 = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(w, h) * 0.9);
+          g1.addColorStop(0, 'rgba(34, 211, 238, 0.10)');
+          g1.addColorStop(1, 'rgba(34, 211, 238, 0)');
+          ctx.fillStyle = g1;
+          ctx.fill();
+          const g2 = ctx.createRadialGradient(w, h, 0, w, h, Math.max(w, h) * 0.9);
+          g2.addColorStop(0, 'rgba(167, 139, 250, 0.08)');
+          g2.addColorStop(1, 'rgba(167, 139, 250, 0)');
+          ctx.fillStyle = g2;
+          ctx.fill();
+
+          ctx.drawImage(img, padPx, padPx, innerW, innerH);
+
+          return await new Promise((resolve, reject) =>
+            canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob-null'))), 'image/png')
+          );
+        }
+
+        app.ports.copySummaryImage.subscribe(async (nodeId) => {
+          const reply = (s) => app.ports.copySummaryImageResult.send(s);
+          const node = document.getElementById(nodeId);
+          if (!node || typeof htmlToImage === 'undefined') {
+            reply('error');
+            return;
+          }
+
+          try {
+            if (navigator.clipboard && window.ClipboardItem && window.isSecureContext) {
+              // Safari requires ClipboardItem to be constructed synchronously
+              // inside the user gesture; passing a Promise<Blob> is allowed.
+              const item = new ClipboardItem({
+                'image/png': renderSummaryFramed(node),
+              });
+              await navigator.clipboard.write([item]);
+              reply('copied');
+              return;
+            }
+            throw new Error('clipboard-unavailable');
+          } catch (e) {
+            try {
+              const blob = await renderSummaryFramed(node);
+              const url = URL.createObjectURL(blob);
+              const a = Object.assign(document.createElement('a'), {
+                href: url,
+                download: 'payment-summary.png',
+              });
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              URL.revokeObjectURL(url);
+              reply('downloaded');
+            } catch (e2) {
+              console.error('copySummaryImage failed:', e2);
+              reply('error');
             }
           }
         });
